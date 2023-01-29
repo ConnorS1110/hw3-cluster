@@ -4,7 +4,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ConnorS1110/hw3-cluster/test.yml?label=Tests&logo=github)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Language](https://img.shields.io/github/languages/top/ConnorS1110/hw1-scripting.svg)](https://github.com/ConnorS1110/hw3-cluster)
-[![DOI](https://zenodo.org/badge/592491503.svg)](https://zenodo.org/badge/latestdoi/592491503)
+[![DOI](https://zenodo.org/badge/594775164.svg)](https://zenodo.org/badge/latestdoi/594775164)
 ![GitHub contributors](https://img.shields.io/github/contributors/ConnorS1110/hw3-cluster?label=Contributors&logo=github)
 
 This program is an argument parser that interprets command-line arguments, and outputs information depending on the flags that are set. A series of pre-made examples are run that run nested functions for each example and determines whether the output of those nested functions is `True` or `False`. Depending on the flags that are set, you can see the output of these test results in the terminal window. Now supports the use of the `-f` or `--file` arguments that take the relative path of a csv file for statistics to be run on the file
