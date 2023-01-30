@@ -59,3 +59,6 @@ class SYM:
         for _, value in self.has.items():
             e += fun(value / self.n)
         return -e
+    
+    def dist(self, s1, s2):
+        return 1 if (s1 == "?" and s2 == "?") else 0 if (s1 == s2) else 1
