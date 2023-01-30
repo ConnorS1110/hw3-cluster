@@ -6,15 +6,22 @@ from sym import SYM
 from data import DATA
 
 help = """
-data.lua : an example csv reader script
-(c)2022, Tim Menzies <timm@ieee.org>, BSD-2
-USAGE:   data.lua  [OPTIONS] [-g ACTION]
+cluster.lua : an example csv reader script
+(c)2022, Tim Menzies <timm@ieee.org>, BSD-2 
+
+USAGE: cluster.lua  [OPTIONS] [-g ACTION]
+
 OPTIONS:
-  -d  --dump  on crash, dump stack = false
-  -f  --file  name of file         = ../etc/data/auto93.csv
-  -g  --go    start-up action      = data
-  -h  --help  show help            = false
-  -s  --seed  random number seed   = 937162211
+  -d  --dump    on crash, dump stack   = false
+  -f  --file    name of file           = ../etc/data/auto93.csv
+  -F  --Far     distance to "faraway"  = .95
+  -g  --go      start-up action        = data
+  -h  --help    show help              = false
+  -m  --min     stop clusters at N^min = .5
+  -p  --p       distance coefficient   = 2
+  -s  --seed    random number seed     = 937162211
+  -S  --Sample  sampling data size     = 512
+
 ACTIONS:
 """
 
@@ -166,6 +173,11 @@ def getCliArgs():
     parser.add_argument("-h", "--help", action='store_true', help="show help")
     parser.add_argument("-s", "--seed", type=int, default=937162211, required=False, help="random number seed")
     parser.add_argument("-f", "--file", type=str, default="../etc/data/auto93.csv", required=False, help="name of file")
+    parser.add_argument("-F", "--Far", type=float, default=0.95, required=False, help="Distance to Faraway")
+    parser.add_argument("-m", "--min", type=float, default=0.5, required=False, help="stop clusters at N^min")
+    parser.add_argument("-p", "--p", type=int, default=2, required=False, help="distance coefficient")
+    parser.add_argument("-S", "--Sample", type=int, default=512, required=False, help="Sampling data size")
+    
     args = parser.parse_args()
 
 def printCLIvalues():
