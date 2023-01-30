@@ -86,7 +86,10 @@ class SYM:
         e = 0
         for _, value in self.has.items():
             e += fun(value / self.n)
-        return -e</code></pre>
+        return -e
+    
+    def dist(self, s1, s2):
+        return 1 if (s1 == &#34;?&#34; and s2 == &#34;?&#34;) else 0 if (s1 == s2) else 1</code></pre>
 </details>
 </section>
 <section>
@@ -166,7 +169,10 @@ class SYM:
         e = 0
         for _, value in self.has.items():
             e += fun(value / self.n)
-        return -e</code></pre>
+        return -e
+    
+    def dist(self, s1, s2):
+        return 1 if (s1 == &#34;?&#34; and s2 == &#34;?&#34;) else 0 if (s1 == s2) else 1</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -205,6 +211,19 @@ n - value to add</p>
         if self.has[x] &gt; self.most:
             self.most = self.has[x]
             self.mode = x</code></pre>
+</details>
+</dd>
+<dt id="src.sym.SYM.dist"><code class="name flex">
+<span>def <span class="ident">dist</span></span>(<span>self, s1, s2)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def dist(self, s1, s2):
+    return 1 if (s1 == &#34;?&#34; and s2 == &#34;?&#34;) else 0 if (s1 == s2) else 1</code></pre>
 </details>
 </dd>
 <dt id="src.sym.SYM.div"><code class="name flex">
@@ -295,6 +314,7 @@ n - value to add</p>
 <h4><code><a title="src.sym.SYM" href="#src.sym.SYM">SYM</a></code></h4>
 <ul class="">
 <li><code><a title="src.sym.SYM.add" href="#src.sym.SYM.add">add</a></code></li>
+<li><code><a title="src.sym.SYM.dist" href="#src.sym.SYM.dist">dist</a></code></li>
 <li><code><a title="src.sym.SYM.div" href="#src.sym.SYM.div">div</a></code></li>
 <li><code><a title="src.sym.SYM.mid" href="#src.sym.SYM.mid">mid</a></code></li>
 </ul>
