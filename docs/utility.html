@@ -34,15 +34,22 @@ from sym import SYM
 from data import DATA
 
 help = &#34;&#34;&#34;
-data.lua : an example csv reader script
-(c)2022, Tim Menzies &lt;timm@ieee.org&gt;, BSD-2
-USAGE:   data.lua  [OPTIONS] [-g ACTION]
+cluster.lua : an example csv reader script
+(c)2022, Tim Menzies &lt;timm@ieee.org&gt;, BSD-2 
+
+USAGE: cluster.lua  [OPTIONS] [-g ACTION]
+
 OPTIONS:
-  -d  --dump  on crash, dump stack = false
-  -f  --file  name of file         = ../etc/data/auto93.csv
-  -g  --go    start-up action      = data
-  -h  --help  show help            = false
-  -s  --seed  random number seed   = 937162211
+  -d  --dump    on crash, dump stack   = false
+  -f  --file    name of file           = ../etc/data/auto93.csv
+  -F  --Far     distance to &#34;faraway&#34;  = .95
+  -g  --go      start-up action        = data
+  -h  --help    show help              = false
+  -m  --min     stop clusters at N^min = .5
+  -p  --p       distance coefficient   = 2
+  -s  --seed    random number seed     = 937162211
+  -S  --Sample  sampling data size     = 512
+
 ACTIONS:
 &#34;&#34;&#34;
 
@@ -194,6 +201,11 @@ def getCliArgs():
     parser.add_argument(&#34;-h&#34;, &#34;--help&#34;, action=&#39;store_true&#39;, help=&#34;show help&#34;)
     parser.add_argument(&#34;-s&#34;, &#34;--seed&#34;, type=int, default=937162211, required=False, help=&#34;random number seed&#34;)
     parser.add_argument(&#34;-f&#34;, &#34;--file&#34;, type=str, default=&#34;../etc/data/auto93.csv&#34;, required=False, help=&#34;name of file&#34;)
+    parser.add_argument(&#34;-F&#34;, &#34;--Far&#34;, type=float, default=0.95, required=False, help=&#34;Distance to Faraway&#34;)
+    parser.add_argument(&#34;-m&#34;, &#34;--min&#34;, type=float, default=0.5, required=False, help=&#34;stop clusters at N^min&#34;)
+    parser.add_argument(&#34;-p&#34;, &#34;--p&#34;, type=int, default=2, required=False, help=&#34;distance coefficient&#34;)
+    parser.add_argument(&#34;-S&#34;, &#34;--Sample&#34;, type=int, default=512, required=False, help=&#34;Sampling data size&#34;)
+    
     args = parser.parse_args()
 
 def printCLIvalues():
@@ -474,6 +486,11 @@ fun - callback function to use for test case</p>
     parser.add_argument(&#34;-h&#34;, &#34;--help&#34;, action=&#39;store_true&#39;, help=&#34;show help&#34;)
     parser.add_argument(&#34;-s&#34;, &#34;--seed&#34;, type=int, default=937162211, required=False, help=&#34;random number seed&#34;)
     parser.add_argument(&#34;-f&#34;, &#34;--file&#34;, type=str, default=&#34;../etc/data/auto93.csv&#34;, required=False, help=&#34;name of file&#34;)
+    parser.add_argument(&#34;-F&#34;, &#34;--Far&#34;, type=float, default=0.95, required=False, help=&#34;Distance to Faraway&#34;)
+    parser.add_argument(&#34;-m&#34;, &#34;--min&#34;, type=float, default=0.5, required=False, help=&#34;stop clusters at N^min&#34;)
+    parser.add_argument(&#34;-p&#34;, &#34;--p&#34;, type=int, default=2, required=False, help=&#34;distance coefficient&#34;)
+    parser.add_argument(&#34;-S&#34;, &#34;--Sample&#34;, type=int, default=512, required=False, help=&#34;Sampling data size&#34;)
+    
     args = parser.parse_args()</code></pre>
 </details>
 </dd>
