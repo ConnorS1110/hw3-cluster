@@ -203,7 +203,7 @@ def getCliArgs():
     global args
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("-d", "--dump", type=bool, default=False, required=False, help="on crash, dump stack")
-    parser.add_argument("-g", "--go", type=str, default="data", required=False, help="start-up action")
+    parser.add_argument("-g", "--go", type=str, default="all", required=False, help="start-up action")
     parser.add_argument("-h", "--help", action='store_true', help="show help")
     parser.add_argument("-s", "--seed", type=int, default=937162211, required=False, help="random number seed")
     parser.add_argument("-f", "--file", type=str, default="../etc/data/auto93.csv", required=False, help="name of file")
@@ -307,3 +307,13 @@ def statsFunc():
     for k, cols in {'y': data.cols.y, 'x': data.cols.x}.items():
         print(k, "\tmid", (data.stats("mid", cols, 2)))
         print("", "\tdiv", (data.stats("div", cols, 2)))
+
+def cloneFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data1 = DATA(full_path)
+    data2 = data1.clone(data1.rows)
+    return (len(data1.rows) == len(data2.rows) and
+            data1.cols.y[1].w == data2.cols.y[1].w and
+            data1.cols.x[1].at == data2.cols.x[1].at and
+            len(data1.cols.x) == len(data2.cols.x))

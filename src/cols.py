@@ -6,6 +6,8 @@ class COLS:
     def __init__(self, t):
         self.names, self.all, self.x, self.y, self.klass = t, [], [], [], []
         for n, s in enumerate(t):
+            print("Checking")
+            print(re.match(r"^[A-Z]+", s))
             if re.match(r"^[A-Z]+", s):
                 col = NUM(n, s)
             else:
