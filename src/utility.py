@@ -4,6 +4,7 @@ import os
 from num import NUM
 from sym import SYM
 from data import DATA
+from math import floor
 
 help = """
 cluster.lua : an example csv reader script
@@ -29,6 +30,18 @@ args = None
 Seed = 937162211
 egs = {}
 n = 0
+
+
+def show(node, what, cols, nPlaces, lvl=None):
+    if node:
+        lv1 = lv1 or 0
+        print("| " * lvl + str(len(node.data.rows)) + " ", end="")
+        print(not node.left or lvl == 0) and print(node.data.stats("mid", node.data.cols.y, nPlaces) or "")
+        show(node.left, what,cols, nPlaces, lvl+1)
+        show(node.right, what,cols,nPlaces, lvl+1)
+        
+def rint(lo, hi):
+    floor(0.5 + rand(lo, hi))
 
 def eg(key, string, fun):
     """
@@ -93,11 +106,19 @@ def cosine(a, b, c):
     return x2, y
 
 
-def many():
-    return
+def many(t, n):
+    u = {}
+    for i in range(1, n+1):
+        u[1 + len(u)] = any(t)
+    return u
 
-def any():
-    return
+def any(t):
+    return t[rint(len(t))]
+
+def lt(x):
+    def fun(a, b):
+        return a[x] < b[x]
+    return fun
 
 def randFunc():
     """

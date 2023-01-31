@@ -100,7 +100,7 @@ class DATA:
         B = self.around[round(util.args.Far * len(rows)) - 1]['row']
         c = dist(A, B)
         left, right = {}, {}
-        for n, tmp in enumerate(sorted(map(project, rows), key=lambda x: x['dist'])):
+        for n, tmp in enumerate(sorted(map(project, rows), key=util.lt("dist"))):
             if n <= len(rows) // 2:
                 left.append(tmp.row)
                 mid = tmp.row
@@ -128,7 +128,7 @@ class DATA:
 
         if len(rows)>2*min:
            left, right, node["A"], node["B"], node["mid"] = self.half(rows, cols, above)
-           if self.better(node["B"], node["A"]): left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
+           if self.better(node["B"], node["A"]):left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
            node["left"] = self.sway(left,  min, cols, node["A"])
 
         return node
