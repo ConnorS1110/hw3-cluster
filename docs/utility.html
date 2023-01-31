@@ -32,6 +32,7 @@ import os
 from num import NUM
 from sym import SYM
 from data import DATA
+from math import floor
 
 help = &#34;&#34;&#34;
 cluster.lua : an example csv reader script
@@ -57,6 +58,18 @@ args = None
 Seed = 937162211
 egs = {}
 n = 0
+
+
+def show(node, what, cols, nPlaces, lvl=None):
+    if node:
+        lv1 = lv1 or 0
+        print(&#34;| &#34; * lvl + str(len(node.data.rows)) + &#34; &#34;, end=&#34;&#34;)
+        print(not node.left or lvl == 0) and print(node.data.stats(&#34;mid&#34;, node.data.cols.y, nPlaces) or &#34;&#34;)
+        show(node.left, what,cols, nPlaces, lvl+1)
+        show(node.right, what,cols,nPlaces, lvl+1)
+        
+def rint(lo, hi):
+    floor(0.5 + rand(lo, hi))
 
 def eg(key, string, fun):
     &#34;&#34;&#34;
@@ -121,11 +134,19 @@ def cosine(a, b, c):
     return x2, y
 
 
-def many():
-    return
+def many(t, n):
+    u = {}
+    for i in range(1, n+1):
+        u[1 + len(u)] = any(t)
+    return u
 
-def any():
-    return
+def any(t):
+    return t[rint(len(t))]
+
+def lt(x):
+    def fun(a, b):
+        return a[x] &lt; b[x]
+    return fun
 
 def randFunc():
     &#34;&#34;&#34;
@@ -324,7 +345,7 @@ def statsFunc():
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="src.utility.any"><code class="name flex">
-<span>def <span class="ident">any</span></span>(<span>)</span>
+<span>def <span class="ident">any</span></span>(<span>t)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -332,8 +353,8 @@ def statsFunc():
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def any():
-    return</code></pre>
+<pre><code class="python">def any(t):
+    return t[rint(len(t))]</code></pre>
 </details>
 </dd>
 <dt id="src.utility.cosine"><code class="name flex">
@@ -572,8 +593,8 @@ fun - anonymous function to be used as value in map</p>
     return u</code></pre>
 </details>
 </dd>
-<dt id="src.utility.many"><code class="name flex">
-<span>def <span class="ident">many</span></span>(<span>)</span>
+<dt id="src.utility.lt"><code class="name flex">
+<span>def <span class="ident">lt</span></span>(<span>x)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -581,8 +602,26 @@ fun - anonymous function to be used as value in map</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def many():
-    return</code></pre>
+<pre><code class="python">def lt(x):
+    def fun(a, b):
+        return a[x] &lt; b[x]
+    return fun</code></pre>
+</details>
+</dd>
+<dt id="src.utility.many"><code class="name flex">
+<span>def <span class="ident">many</span></span>(<span>t, n)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def many(t, n):
+    u = {}
+    for i in range(1, n+1):
+        u[1 + len(u)] = any(t)
+    return u</code></pre>
 </details>
 </dd>
 <dt id="src.utility.numFunc"><code class="name flex">
@@ -777,6 +816,37 @@ fun - callback function to be called for each line in the CSV</p>
             fun(line)</code></pre>
 </details>
 </dd>
+<dt id="src.utility.rint"><code class="name flex">
+<span>def <span class="ident">rint</span></span>(<span>lo, hi)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rint(lo, hi):
+    floor(0.5 + rand(lo, hi))</code></pre>
+</details>
+</dd>
+<dt id="src.utility.show"><code class="name flex">
+<span>def <span class="ident">show</span></span>(<span>node, what, cols, nPlaces, lvl=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show(node, what, cols, nPlaces, lvl=None):
+    if node:
+        lv1 = lv1 or 0
+        print(&#34;| &#34; * lvl + str(len(node.data.rows)) + &#34; &#34;, end=&#34;&#34;)
+        print(not node.left or lvl == 0) and print(node.data.stats(&#34;mid&#34;, node.data.cols.y, nPlaces) or &#34;&#34;)
+        show(node.left, what,cols, nPlaces, lvl+1)
+        show(node.right, what,cols,nPlaces, lvl+1)</code></pre>
+</details>
+</dd>
 <dt id="src.utility.statsFunc"><code class="name flex">
 <span>def <span class="ident">statsFunc</span></span>(<span>)</span>
 </code></dt>
@@ -871,6 +941,7 @@ fun - callback function to be called for each line in the CSV</p>
 <li><code><a title="src.utility.eg" href="#src.utility.eg">eg</a></code></li>
 <li><code><a title="src.utility.getCliArgs" href="#src.utility.getCliArgs">getCliArgs</a></code></li>
 <li><code><a title="src.utility.kap" href="#src.utility.kap">kap</a></code></li>
+<li><code><a title="src.utility.lt" href="#src.utility.lt">lt</a></code></li>
 <li><code><a title="src.utility.many" href="#src.utility.many">many</a></code></li>
 <li><code><a title="src.utility.numFunc" href="#src.utility.numFunc">numFunc</a></code></li>
 <li><code><a title="src.utility.oo" href="#src.utility.oo">oo</a></code></li>
@@ -878,6 +949,8 @@ fun - callback function to be called for each line in the CSV</p>
 <li><code><a title="src.utility.rand" href="#src.utility.rand">rand</a></code></li>
 <li><code><a title="src.utility.randFunc" href="#src.utility.randFunc">randFunc</a></code></li>
 <li><code><a title="src.utility.readCSV" href="#src.utility.readCSV">readCSV</a></code></li>
+<li><code><a title="src.utility.rint" href="#src.utility.rint">rint</a></code></li>
+<li><code><a title="src.utility.show" href="#src.utility.show">show</a></code></li>
 <li><code><a title="src.utility.statsFunc" href="#src.utility.statsFunc">statsFunc</a></code></li>
 <li><code><a title="src.utility.symFunc" href="#src.utility.symFunc">symFunc</a></code></li>
 </ul>
