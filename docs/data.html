@@ -156,13 +156,11 @@ class DATA:
 
         if len(rows)&gt;2*min:
            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
-           if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
+           if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):
+               left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
            node[&#34;left&#34;] = self.sway(left,  min, cols, node[&#34;A&#34;])
 
-        return node
-
-    
-        </code></pre>
+        return node</code></pre>
 </details>
 </section>
 <section>
@@ -309,7 +307,8 @@ class DATA:
 
         if len(rows)&gt;2*min:
            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
-           if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
+           if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):
+               left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
            node[&#34;left&#34;] = self.sway(left,  min, cols, node[&#34;A&#34;])
 
         return node</code></pre>
@@ -547,7 +546,8 @@ nPlaces - # of decimal places stat is rounded to</p>
 
     if len(rows)&gt;2*min:
        left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
-       if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
+       if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):
+           left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
        node[&#34;left&#34;] = self.sway(left,  min, cols, node[&#34;A&#34;])
 
     return node</code></pre>
