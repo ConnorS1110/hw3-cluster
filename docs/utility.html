@@ -35,7 +35,7 @@ from data import DATA
 
 help = &#34;&#34;&#34;
 cluster.lua : an example csv reader script
-(c)2022, Tim Menzies &lt;timm@ieee.org&gt;, BSD-2 
+(c)2022, Tim Menzies &lt;timm@ieee.org&gt;, BSD-2
 
 USAGE: cluster.lua  [OPTIONS] [-g ACTION]
 
@@ -113,6 +113,15 @@ def rand(low, high):
     low, high = low or 0, high or 1
     Seed = (16807 * Seed) % 2147483647
     return low + (high - low) * Seed / 2147483647
+
+def cosine():
+    return
+
+def many():
+    return
+
+def any():
+    return
 
 def randFunc():
     &#34;&#34;&#34;
@@ -205,7 +214,7 @@ def getCliArgs():
     parser.add_argument(&#34;-m&#34;, &#34;--min&#34;, type=float, default=0.5, required=False, help=&#34;stop clusters at N^min&#34;)
     parser.add_argument(&#34;-p&#34;, &#34;--p&#34;, type=int, default=2, required=False, help=&#34;distance coefficient&#34;)
     parser.add_argument(&#34;-S&#34;, &#34;--Sample&#34;, type=int, default=512, required=False, help=&#34;Sampling data size&#34;)
-    
+
     args = parser.parse_args()
 
 def printCLIvalues():
@@ -310,6 +319,32 @@ def statsFunc():
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="src.utility.any"><code class="name flex">
+<span>def <span class="ident">any</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def any():
+    return</code></pre>
+</details>
+</dd>
+<dt id="src.utility.cosine"><code class="name flex">
+<span>def <span class="ident">cosine</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cosine():
+    return</code></pre>
+</details>
+</dd>
 <dt id="src.utility.crashFunc"><code class="name flex">
 <span>def <span class="ident">crashFunc</span></span>(<span>)</span>
 </code></dt>
@@ -490,7 +525,7 @@ fun - callback function to use for test case</p>
     parser.add_argument(&#34;-m&#34;, &#34;--min&#34;, type=float, default=0.5, required=False, help=&#34;stop clusters at N^min&#34;)
     parser.add_argument(&#34;-p&#34;, &#34;--p&#34;, type=int, default=2, required=False, help=&#34;distance coefficient&#34;)
     parser.add_argument(&#34;-S&#34;, &#34;--Sample&#34;, type=int, default=512, required=False, help=&#34;Sampling data size&#34;)
-    
+
     args = parser.parse_args()</code></pre>
 </details>
 </dd>
@@ -528,6 +563,19 @@ fun - anonymous function to be used as value in map</p>
         v, k = fun(v)
         u[k or len(u)+1] = v
     return u</code></pre>
+</details>
+</dd>
+<dt id="src.utility.many"><code class="name flex">
+<span>def <span class="ident">many</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def many():
+    return</code></pre>
 </details>
 </dd>
 <dt id="src.utility.numFunc"><code class="name flex">
@@ -808,12 +856,15 @@ fun - callback function to be called for each line in the CSV</p>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="two-column">
+<li><code><a title="src.utility.any" href="#src.utility.any">any</a></code></li>
+<li><code><a title="src.utility.cosine" href="#src.utility.cosine">cosine</a></code></li>
 <li><code><a title="src.utility.crashFunc" href="#src.utility.crashFunc">crashFunc</a></code></li>
 <li><code><a title="src.utility.csvFunc" href="#src.utility.csvFunc">csvFunc</a></code></li>
 <li><code><a title="src.utility.dataFunc" href="#src.utility.dataFunc">dataFunc</a></code></li>
 <li><code><a title="src.utility.eg" href="#src.utility.eg">eg</a></code></li>
 <li><code><a title="src.utility.getCliArgs" href="#src.utility.getCliArgs">getCliArgs</a></code></li>
 <li><code><a title="src.utility.kap" href="#src.utility.kap">kap</a></code></li>
+<li><code><a title="src.utility.many" href="#src.utility.many">many</a></code></li>
 <li><code><a title="src.utility.numFunc" href="#src.utility.numFunc">numFunc</a></code></li>
 <li><code><a title="src.utility.oo" href="#src.utility.oo">oo</a></code></li>
 <li><code><a title="src.utility.printCLIvalues" href="#src.utility.printCLIvalues">printCLIvalues</a></code></li>
