@@ -340,7 +340,7 @@ def cloneFunc():
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data1 = DATA(full_path)
-    data2 = data1.clone(data1)
+    data2 = data1.clone()
     return (len(data1.rows) == len(data2.rows) and
             data1.cols.y[1].w == data2.cols.y[1].w and
             data1.cols.x[1].at == data2.cols.x[1].at and
@@ -380,7 +380,7 @@ def cloneFunc():
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data1 = DATA(full_path)
-    data2 = data1.clone(data1)
+    data2 = data1.clone()
     return (len(data1.rows) == len(data2.rows) and
             data1.cols.y[1].w == data2.cols.y[1].w and
             data1.cols.x[1].at == data2.cols.x[1].at and
