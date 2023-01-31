@@ -107,3 +107,32 @@ class DATA:
             else:
                 right.append(tmp.row)
         return left, right, A, B, mid, c
+
+    def cluster(self, rows, min, cols, above):
+        rows = rows if rows else self.rows
+        min = min if min else len(rows)**util.args.min
+        cols = cols if cols else self.cols.x
+        node = {"data": self.clone(rows)}
+
+        if len(rows)>2*min:
+            left, right, node["A"], node["B"], node["mid"] = self.half(rows, cols, above)
+            node["left"] = self.cluster(left, min, cols, node["A"])
+            node["right"] = self.cluster(right, min, cols, node["B"])
+        return node
+
+    def sway(self, rows, min, cols, above):
+        rows = rows if rows else self.rows
+        min = min if min else len(rows)**util.args.min
+        cols = cols if cols else self.cols.x
+        node = {"data": self.clone(rows)}
+
+        if len(rows)>2*min:
+           left, right, node["A"], node["B"], node["mid"] = self.half(rows, cols, above)
+           if self.better(node["B"], node["A"]): left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
+           node["left"] = self.sway(left,  min, cols, node["A"])
+
+        return node
+
+    
+        
+
