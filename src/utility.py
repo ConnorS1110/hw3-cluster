@@ -39,7 +39,7 @@ def show(node, what, cols, nPlaces, lvl=None):
         print(not node.left or lvl == 0) and print(node.data.stats("mid", node.data.cols.y, nPlaces) or "")
         show(node.left, what,cols, nPlaces, lvl+1)
         show(node.right, what,cols,nPlaces, lvl+1)
-        
+
 def rint(lo, hi):
     floor(0.5 + rand(lo, hi))
 
@@ -102,7 +102,7 @@ def rand(low, high):
 def cosine(a, b, c):
     x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
-    y = (a ** 2 - x2 ** 2) ** 0.5    
+    y = (a ** 2 - x2 ** 2) ** 0.5
     return x2, y
 
 
@@ -312,7 +312,7 @@ def cloneFunc():
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data1 = DATA(full_path)
-    data2 = data1.clone(data1.rows)
+    data2 = data1.clone(data1)
     return (len(data1.rows) == len(data2.rows) and
             data1.cols.y[1].w == data2.cols.y[1].w and
             data1.cols.x[1].at == data2.cols.x[1].at and

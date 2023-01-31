@@ -11,7 +11,6 @@ class DATA:
         if type(src) == str:
             test.readCSV(src, fun)
         else:
-            print("Inside init fun: ", fun)
             map(fun, src or {})
 
     def add(self, t):
@@ -33,7 +32,7 @@ class DATA:
         else:
             self.cols = COLS(t)
 
-    def clone(self, x):
+    def clone(self):
         """
         Function:
             clone
@@ -46,11 +45,8 @@ class DATA:
         Output:
             data - Clone of DATA object
         """
-        init = None
-        data = DATA([self.cols.names])
-        print("***************")
-        print(len(data.rows))
-        map(init or {}, data.add(x))
+        data = self
+        # map(init or {}, data.add(x))
         return data
 
     def stats(self, what, cols, nPlaces, fun):
