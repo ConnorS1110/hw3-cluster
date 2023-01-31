@@ -7,7 +7,7 @@ from data import DATA
 
 help = """
 cluster.lua : an example csv reader script
-(c)2022, Tim Menzies <timm@ieee.org>, BSD-2 
+(c)2022, Tim Menzies <timm@ieee.org>, BSD-2
 
 USAGE: cluster.lua  [OPTIONS] [-g ACTION]
 
@@ -85,6 +85,15 @@ def rand(low, high):
     low, high = low or 0, high or 1
     Seed = (16807 * Seed) % 2147483647
     return low + (high - low) * Seed / 2147483647
+
+def cosine():
+    return
+
+def many():
+    return
+
+def any():
+    return
 
 def randFunc():
     """
@@ -177,7 +186,7 @@ def getCliArgs():
     parser.add_argument("-m", "--min", type=float, default=0.5, required=False, help="stop clusters at N^min")
     parser.add_argument("-p", "--p", type=int, default=2, required=False, help="distance coefficient")
     parser.add_argument("-S", "--Sample", type=int, default=512, required=False, help="Sampling data size")
-    
+
     args = parser.parse_args()
 
 def printCLIvalues():
