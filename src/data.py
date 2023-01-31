@@ -128,11 +128,8 @@ class DATA:
 
         if len(rows)>2*min:
            left, right, node["A"], node["B"], node["mid"] = self.half(rows, cols, above)
-           if self.better(node["B"], node["A"]):left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
+           if self.better(node["B"], node["A"]):
+               left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
            node["left"] = self.sway(left,  min, cols, node["A"])
 
         return node
-
-    
-        
-
