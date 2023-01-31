@@ -39,7 +39,7 @@ class DATA:
         if type(src) == str:
             test.readCSV(src, fun)
         else:
-            map(src or {}, fun)
+            map(fun, src or {})
 
     def add(self, t):
         &#34;&#34;&#34;
@@ -60,7 +60,7 @@ class DATA:
         else:
             self.cols = COLS(t)
 
-    def clone(self, init, x):
+    def clone(self):
         &#34;&#34;&#34;
         Function:
             clone
@@ -73,8 +73,8 @@ class DATA:
         Output:
             data - Clone of DATA object
         &#34;&#34;&#34;
-        data = DATA({self.cols.names})
-        map(init or {}, data.add(x))
+        data = self
+        # map(init or {}, data.add(x))
         return data
 
     def stats(self, what, cols, nPlaces, fun):
@@ -190,7 +190,7 @@ class DATA:
         if type(src) == str:
             test.readCSV(src, fun)
         else:
-            map(src or {}, fun)
+            map(fun, src or {})
 
     def add(self, t):
         &#34;&#34;&#34;
@@ -211,7 +211,7 @@ class DATA:
         else:
             self.cols = COLS(t)
 
-    def clone(self, init, x):
+    def clone(self):
         &#34;&#34;&#34;
         Function:
             clone
@@ -224,8 +224,8 @@ class DATA:
         Output:
             data - Clone of DATA object
         &#34;&#34;&#34;
-        data = DATA({self.cols.names})
-        map(init or {}, data.add(x))
+        data = self
+        # map(init or {}, data.add(x))
         return data
 
     def stats(self, what, cols, nPlaces, fun):
@@ -385,7 +385,7 @@ t - data to be added</p>
 </details>
 </dd>
 <dt id="src.data.DATA.clone"><code class="name flex">
-<span>def <span class="ident">clone</span></span>(<span>self, init, x)</span>
+<span>def <span class="ident">clone</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><h2 id="function">Function</h2>
@@ -402,7 +402,7 @@ x - data to be cloned</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def clone(self, init, x):
+<pre><code class="python">def clone(self):
     &#34;&#34;&#34;
     Function:
         clone
@@ -415,8 +415,8 @@ x - data to be cloned</p>
     Output:
         data - Clone of DATA object
     &#34;&#34;&#34;
-    data = DATA({self.cols.names})
-    map(init or {}, data.add(x))
+    data = self
+    # map(init or {}, data.add(x))
     return data</code></pre>
 </details>
 </dd>

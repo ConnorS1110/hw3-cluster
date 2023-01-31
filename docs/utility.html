@@ -67,7 +67,7 @@ def show(node, what, cols, nPlaces, lvl=None):
         print(not node.left or lvl == 0) and print(node.data.stats(&#34;mid&#34;, node.data.cols.y, nPlaces) or &#34;&#34;)
         show(node.left, what,cols, nPlaces, lvl+1)
         show(node.right, what,cols,nPlaces, lvl+1)
-        
+
 def rint(lo, hi):
     floor(0.5 + rand(lo, hi))
 
@@ -130,7 +130,7 @@ def rand(low, high):
 def cosine(a, b, c):
     x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
-    y = (a ** 2 - x2 ** 2) ** 0.5    
+    y = (a ** 2 - x2 ** 2) ** 0.5
     return x2, y
 
 
@@ -231,7 +231,7 @@ def getCliArgs():
     global args
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument(&#34;-d&#34;, &#34;--dump&#34;, type=bool, default=False, required=False, help=&#34;on crash, dump stack&#34;)
-    parser.add_argument(&#34;-g&#34;, &#34;--go&#34;, type=str, default=&#34;data&#34;, required=False, help=&#34;start-up action&#34;)
+    parser.add_argument(&#34;-g&#34;, &#34;--go&#34;, type=str, default=&#34;all&#34;, required=False, help=&#34;start-up action&#34;)
     parser.add_argument(&#34;-h&#34;, &#34;--help&#34;, action=&#39;store_true&#39;, help=&#34;show help&#34;)
     parser.add_argument(&#34;-s&#34;, &#34;--seed&#34;, type=int, default=937162211, required=False, help=&#34;random number seed&#34;)
     parser.add_argument(&#34;-f&#34;, &#34;--file&#34;, type=str, default=&#34;../etc/data/auto93.csv&#34;, required=False, help=&#34;name of file&#34;)
@@ -334,7 +334,17 @@ def statsFunc():
     data = DATA(full_path)
     for k, cols in {&#39;y&#39;: data.cols.y, &#39;x&#39;: data.cols.x}.items():
         print(k, &#34;\tmid&#34;, (data.stats(&#34;mid&#34;, cols, 2)))
-        print(&#34;&#34;, &#34;\tdiv&#34;, (data.stats(&#34;div&#34;, cols, 2)))</code></pre>
+        print(&#34;&#34;, &#34;\tdiv&#34;, (data.stats(&#34;div&#34;, cols, 2)))
+
+def cloneFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data1 = DATA(full_path)
+    data2 = data1.clone(data1)
+    return (len(data1.rows) == len(data2.rows) and
+            data1.cols.y[1].w == data2.cols.y[1].w and
+            data1.cols.x[1].at == data2.cols.x[1].at and
+            len(data1.cols.x) == len(data2.cols.x))</code></pre>
 </details>
 </section>
 <section>
@@ -357,6 +367,26 @@ def statsFunc():
     return t[rint(len(t))]</code></pre>
 </details>
 </dd>
+<dt id="src.utility.cloneFunc"><code class="name flex">
+<span>def <span class="ident">cloneFunc</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cloneFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data1 = DATA(full_path)
+    data2 = data1.clone(data1)
+    return (len(data1.rows) == len(data2.rows) and
+            data1.cols.y[1].w == data2.cols.y[1].w and
+            data1.cols.x[1].at == data2.cols.x[1].at and
+            len(data1.cols.x) == len(data2.cols.x))</code></pre>
+</details>
+</dd>
 <dt id="src.utility.cosine"><code class="name flex">
 <span>def <span class="ident">cosine</span></span>(<span>a, b, c)</span>
 </code></dt>
@@ -369,7 +399,7 @@ def statsFunc():
 <pre><code class="python">def cosine(a, b, c):
     x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
-    y = (a ** 2 - x2 ** 2) ** 0.5    
+    y = (a ** 2 - x2 ** 2) ** 0.5
     return x2, y</code></pre>
 </details>
 </dd>
@@ -545,7 +575,7 @@ fun - callback function to use for test case</p>
     global args
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument(&#34;-d&#34;, &#34;--dump&#34;, type=bool, default=False, required=False, help=&#34;on crash, dump stack&#34;)
-    parser.add_argument(&#34;-g&#34;, &#34;--go&#34;, type=str, default=&#34;data&#34;, required=False, help=&#34;start-up action&#34;)
+    parser.add_argument(&#34;-g&#34;, &#34;--go&#34;, type=str, default=&#34;all&#34;, required=False, help=&#34;start-up action&#34;)
     parser.add_argument(&#34;-h&#34;, &#34;--help&#34;, action=&#39;store_true&#39;, help=&#34;show help&#34;)
     parser.add_argument(&#34;-s&#34;, &#34;--seed&#34;, type=int, default=937162211, required=False, help=&#34;random number seed&#34;)
     parser.add_argument(&#34;-f&#34;, &#34;--file&#34;, type=str, default=&#34;../etc/data/auto93.csv&#34;, required=False, help=&#34;name of file&#34;)
@@ -934,6 +964,7 @@ fun - callback function to be called for each line in the CSV</p>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="two-column">
 <li><code><a title="src.utility.any" href="#src.utility.any">any</a></code></li>
+<li><code><a title="src.utility.cloneFunc" href="#src.utility.cloneFunc">cloneFunc</a></code></li>
 <li><code><a title="src.utility.cosine" href="#src.utility.cosine">cosine</a></code></li>
 <li><code><a title="src.utility.crashFunc" href="#src.utility.crashFunc">crashFunc</a></code></li>
 <li><code><a title="src.utility.csvFunc" href="#src.utility.csvFunc">csvFunc</a></code></li>
