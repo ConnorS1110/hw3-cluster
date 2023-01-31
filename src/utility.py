@@ -86,8 +86,12 @@ def rand(low, high):
     Seed = (16807 * Seed) % 2147483647
     return low + (high - low) * Seed / 2147483647
 
-def cosine():
-    return
+def cosine(a, b, c):
+    x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
+    x2 = max(0, min(1, x1))
+    y = (a ** 2 - x2 ** 2) ** 0.5    
+    return x2, y
+
 
 def many():
     return
