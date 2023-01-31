@@ -134,7 +134,35 @@ class DATA:
                 mid = tmp.row
             else:
                 right.append(tmp.row)
-        return left, right, A, B, mid, c</code></pre>
+        return left, right, A, B, mid, c
+
+    def cluster(self, rows, min, cols, above):
+        rows = rows if rows else self.rows
+        min = min if min else len(rows)**util.args.min
+        cols = cols if cols else self.cols.x
+        node = {&#34;data&#34;: self.clone(rows)}
+
+        if len(rows)&gt;2*min:
+            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+            node[&#34;left&#34;] = self.cluster(left, min, cols, node[&#34;A&#34;])
+            node[&#34;right&#34;] = self.cluster(right, min, cols, node[&#34;B&#34;])
+        return node
+
+    def sway(self, rows, min, cols, above):
+        rows = rows if rows else self.rows
+        min = min if min else len(rows)**util.args.min
+        cols = cols if cols else self.cols.x
+        node = {&#34;data&#34;: self.clone(rows)}
+
+        if len(rows)&gt;2*min:
+           left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+           if self.better(node[&#34;B&#34;], node[&#34;A&#34;]): left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
+           node[&#34;left&#34;] = self.sway(left,  min, cols, node[&#34;A&#34;])
+
+        return node
+
+    
+        </code></pre>
 </details>
 </section>
 <section>
@@ -259,7 +287,32 @@ class DATA:
                 mid = tmp.row
             else:
                 right.append(tmp.row)
-        return left, right, A, B, mid, c</code></pre>
+        return left, right, A, B, mid, c
+
+    def cluster(self, rows, min, cols, above):
+        rows = rows if rows else self.rows
+        min = min if min else len(rows)**util.args.min
+        cols = cols if cols else self.cols.x
+        node = {&#34;data&#34;: self.clone(rows)}
+
+        if len(rows)&gt;2*min:
+            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+            node[&#34;left&#34;] = self.cluster(left, min, cols, node[&#34;A&#34;])
+            node[&#34;right&#34;] = self.cluster(right, min, cols, node[&#34;B&#34;])
+        return node
+
+    def sway(self, rows, min, cols, above):
+        rows = rows if rows else self.rows
+        min = min if min else len(rows)**util.args.min
+        cols = cols if cols else self.cols.x
+        node = {&#34;data&#34;: self.clone(rows)}
+
+        if len(rows)&gt;2*min:
+           left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+           if self.better(node[&#34;B&#34;], node[&#34;A&#34;]): left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
+           node[&#34;left&#34;] = self.sway(left,  min, cols, node[&#34;A&#34;])
+
+        return node</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -368,6 +421,28 @@ x - data to be cloned</p>
     return data</code></pre>
 </details>
 </dd>
+<dt id="src.data.DATA.cluster"><code class="name flex">
+<span>def <span class="ident">cluster</span></span>(<span>self, rows, min, cols, above)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cluster(self, rows, min, cols, above):
+    rows = rows if rows else self.rows
+    min = min if min else len(rows)**util.args.min
+    cols = cols if cols else self.cols.x
+    node = {&#34;data&#34;: self.clone(rows)}
+
+    if len(rows)&gt;2*min:
+        left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+        node[&#34;left&#34;] = self.cluster(left, min, cols, node[&#34;A&#34;])
+        node[&#34;right&#34;] = self.cluster(right, min, cols, node[&#34;B&#34;])
+    return node</code></pre>
+</details>
+</dd>
 <dt id="src.data.DATA.dist"><code class="name flex">
 <span>def <span class="ident">dist</span></span>(<span>self, row1, row2, cols)</span>
 </code></dt>
@@ -455,6 +530,29 @@ nPlaces - # of decimal places stat is rounded to</p>
     return test.kap(cols or self.cols.y, fun)</code></pre>
 </details>
 </dd>
+<dt id="src.data.DATA.sway"><code class="name flex">
+<span>def <span class="ident">sway</span></span>(<span>self, rows, min, cols, above)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sway(self, rows, min, cols, above):
+    rows = rows if rows else self.rows
+    min = min if min else len(rows)**util.args.min
+    cols = cols if cols else self.cols.x
+    node = {&#34;data&#34;: self.clone(rows)}
+
+    if len(rows)&gt;2*min:
+       left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+       if self.better(node[&#34;B&#34;], node[&#34;A&#34;]): left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
+       node[&#34;left&#34;] = self.sway(left,  min, cols, node[&#34;A&#34;])
+
+    return node</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -480,9 +578,11 @@ nPlaces - # of decimal places stat is rounded to</p>
 <li><code><a title="src.data.DATA.around" href="#src.data.DATA.around">around</a></code></li>
 <li><code><a title="src.data.DATA.better" href="#src.data.DATA.better">better</a></code></li>
 <li><code><a title="src.data.DATA.clone" href="#src.data.DATA.clone">clone</a></code></li>
+<li><code><a title="src.data.DATA.cluster" href="#src.data.DATA.cluster">cluster</a></code></li>
 <li><code><a title="src.data.DATA.dist" href="#src.data.DATA.dist">dist</a></code></li>
 <li><code><a title="src.data.DATA.half" href="#src.data.DATA.half">half</a></code></li>
 <li><code><a title="src.data.DATA.stats" href="#src.data.DATA.stats">stats</a></code></li>
+<li><code><a title="src.data.DATA.sway" href="#src.data.DATA.sway">sway</a></code></li>
 </ul>
 </li>
 </ul>
