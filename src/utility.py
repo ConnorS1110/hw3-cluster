@@ -1,5 +1,6 @@
 import argparse
 import csv
+import math
 import os
 from num import NUM
 from sym import SYM
@@ -40,8 +41,8 @@ def show(node, what, cols, nPlaces, lvl=None):
         show(node.left, what,cols, nPlaces, lvl+1)
         show(node.right, what,cols,nPlaces, lvl+1)
 
-def rint(lo, hi):
-    floor(0.5 + rand(lo, hi))
+def rint(lo = None, hi = None):
+    return math.floor(0.5 + rand(lo, hi))
 
 def eg(key, string, fun):
     """
@@ -108,12 +109,17 @@ def cosine(a, b, c):
 
 def many(t, n):
     u = {}
-    for i in range(1, n+1):
+    for i in range(1, n + 1):
+        print(i)
         u[1 + len(u)] = any(t)
     return u
 
 def any(t):
-    return t[rint(len(t))]
+    rintVal = rint(None, len(t) - 1)
+    print("Len of t: " + str(len(t)))
+    print("Rint value: " + str(rintVal))
+    print(t[rintVal])
+    return t[rintVal]
 
 def lt(x):
     def fun(a, b):
@@ -317,3 +323,9 @@ def cloneFunc():
             data1.cols.y[1].w == data2.cols.y[1].w and
             data1.cols.x[1].at == data2.cols.x[1].at and
             len(data1.cols.x) == len(data2.cols.x))
+
+def clusterFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    show(data.cluster(), "mid", data.cols.y, 1)

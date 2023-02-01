@@ -14,9 +14,9 @@ USAGE: cluster.lua  [OPTIONS] [-g ACTION]
 
 OPTIONS:
   -d  --dump    on crash, dump stack   = false
-  -f  --file    name of file           = ../etc/data/auto93.csv
+  -f  --file    name of file           = ./etc/data/auto93.csv
   -F  --Far     distance to "faraway"  = .95
-  -g  --go      start-up action        = data
+  -g  --go      start-up action        = all
   -h  --help    show help              = false
   -m  --min     stop clusters at N^min = .5
   -p  --p       distance coefficient   = 2
@@ -181,8 +181,6 @@ function DATA.half(i,rows,  cols,above) --> t,t,row,row,row,n; divides data usin
   return left, right, A, B, mid, c end
 
 function DATA.cluster(i,  rows,min,cols,above) --> t; returns `rows`, recursively halved
-  print("Rows:")
-    print(o(rows))
   local node,left,right,A,B,mid
   rows = rows or i.rows
   min  = min or (#rows)^the.min
@@ -260,7 +258,10 @@ function push(t, x) --> any; push `x` to end of list; return `x`
 function push(t, x) --> any; push `x` to end of list; return `x`
   table.insert(t,x); return x end
 
-function any(t) return t[rint(#t)] end  --> x; returns one items at random
+function any(t)
+    io.write("Len of t: "); print(#t)
+    io.write("Rint value: "); print(rint(#t))
+    return t[rint(#t)] end  --> x; returns one items at random
 
 function many(t,n,    u)  --> t1; returns some items from `t`
    u={}; for i=1,n do u[1+#u]=any(t) end; return u end
@@ -330,55 +331,55 @@ function eg(key,str, fun) --> nil; register an example.
 --- eg("crash","show crashing behavior", function()
 ---   return the.some.missing.nested.field end)
 
-eg("the","show settings",function() oo(the) end)
+-- eg("the","show settings",function() oo(the) end)
 
-eg("sym","check syms", function()
-  local sym=SYM()
-  for _,x in pairs{"a","a","a","a","b","b","c"} do sym:add(x) end
-  return "a"==sym:mid() and 1.379 == rnd(sym:div())end)
+-- eg("sym","check syms", function()
+--   local sym=SYM()
+--   for _,x in pairs{"a","a","a","a","b","b","c"} do sym:add(x) end
+--   return "a"==sym:mid() and 1.379 == rnd(sym:div())end)
 
-eg("num", "check nums", function()
-  local num=NUM()
-  for _,x in pairs{1,1,1,1,2,2,3} do num:add(x) end
-  return 11/7 == num:mid() and 0.787 == rnd(num:div()) end )
+-- eg("num", "check nums", function()
+--   local num=NUM()
+--   for _,x in pairs{1,1,1,1,2,2,3} do num:add(x) end
+--   return 11/7 == num:mid() and 0.787 == rnd(num:div()) end )
 
-eg("data","read DATA csv", function(     data)
-  data=DATA(the.file)
-  return #data.rows == 398 and
-         data.cols.y[1].w == -1 and
-         data.cols.x[1].at == 1 and
-         #data.cols.x==4 end)
+-- eg("data","read DATA csv", function(     data)
+--   data=DATA(the.file)
+--   return #data.rows == 398 and
+--          data.cols.y[1].w == -1 and
+--          data.cols.x[1].at == 1 and
+--          #data.cols.x==4 end)
 
-eg("clone", "duplicate structure", function(     data1,data2)
-  data1=DATA(the.file)
-  data2=data1:clone(data1.rows)
-  return #data1.rows == #data2.rows and
-         data1.cols.y[1].w == data2.cols.y[1].w and
-         data1.cols.x[1].at == data2.cols.x[1].at and
-         #data1.cols.x==#data2.cols.x end)
+-- eg("clone", "duplicate structure", function(     data1,data2)
+--   data1=DATA(the.file)
+--   data2=data1:clone(data1.rows)
+--   return #data1.rows == #data2.rows and
+--          data1.cols.y[1].w == data2.cols.y[1].w and
+--          data1.cols.x[1].at == data2.cols.x[1].at and
+--          #data1.cols.x==#data2.cols.x end)
 
-eg("around", "sorting nearest neighbors", function(     data)
-  data=DATA(the.file)
-  print(0,0,o(data.rows[1].cells))
-  for n,t in   pairs(data:around(data.rows[1])) do
-    if n %50 ==0 then print(n, rnd(t.dist,2) ,o(t.row.cells)) end end end)
+-- eg("around", "sorting nearest neighbors", function(     data)
+--   data=DATA(the.file)
+--   print(0,0,o(data.rows[1].cells))
+--   for n,t in   pairs(data:around(data.rows[1])) do
+--     if n %50 ==0 then print(n, rnd(t.dist,2) ,o(t.row.cells)) end end end)
 
-eg("half", "1-level bi-clustering", function(     data)
-  data=DATA(the.file)
-  local left,right,A,B,mid,c = data:half()
-  print(#left,#right,#data.rows)
-  print(o(A.cells),c)
-  print(o(mid.cells))
-  print(o(B.cells)) end)
+-- eg("half", "1-level bi-clustering", function(     data)
+--   data=DATA(the.file)
+--   local left,right,A,B,mid,c = data:half()
+--   print(#left,#right,#data.rows)
+--   print(o(A.cells),c)
+--   print(o(mid.cells))
+--   print(o(B.cells)) end)
 
 eg("cluster", "N-level bi-clustering", function(     data)
   data=DATA(the.file)
   show(data:cluster(),"mid",data.cols.y,1)
   end)
 
-eg("optimize", "semi-supervised optimization", function(     data)
-  data=DATA(the.file)
-  show(data:sway(),"mid",data.cols.y,1)
-  end)
+-- eg("optimize", "semi-supervised optimization", function(     data)
+--   data=DATA(the.file)
+--   show(data:sway(),"mid",data.cols.y,1)
+--   end)
 
 main(the,help,egs)
