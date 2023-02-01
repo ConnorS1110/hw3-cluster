@@ -259,8 +259,8 @@ function push(t, x) --> any; push `x` to end of list; return `x`
   table.insert(t,x); return x end
 
 function any(t)
-    io.write("Len of t: "); print(#t)
-    io.write("Rint value: "); print(rint(#t))
+    -- io.write("Len of t: "); print(#t)
+    -- io.write("Rint value: "); print(rint(#t))
     return t[rint(#t)] end  --> x; returns one items at random
 
 function many(t,n,    u)  --> t1; returns some items from `t`

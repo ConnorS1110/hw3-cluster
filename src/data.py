@@ -86,7 +86,10 @@ class DATA:
         return (d / n) ** (1 / util.args.p)
 
     def around(self, row1, rows, cols = None):
-        return sorted(rows, key=lambda row2: {'row': row2, 'dist': self.dist(row1, row2, cols)})
+        rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in rows.values() or self.rows]
+        sorted_rows = sorted(rows_with_distance, key=lambda x: x[1])
+        return [(row, dist) for row, dist in sorted_rows]
+        # return sorted(rows, key=lambda row2: {'row': row2, 'dist': self.dist(row1, row2, cols)})
 
     def half(self, rows, cols, above):
         A, B, left, right, c, mid, some = None, None, None, None, None, None, None
@@ -97,7 +100,7 @@ class DATA:
         rows = rows or self.rows
         some = util.many(rows, util.args.Sample)
         A = above or util.any(some)
-        B = self.around(A, some)[(util.args.Far * len(rows)) // 1].row
+        B = self.around(A, some)[int((util.args.Far * len(rows)) // 1)]
         c = dist(A, B)
         left, right = {}, {}
         for n, tmp in enumerate(sorted(map(project, rows), key=util.lt("dist"))):
