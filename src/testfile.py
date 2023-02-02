@@ -9,5 +9,5 @@ from utility import *
 # eg("data", "read DATA csv", dataFunc)
 # eg("clone", "duplicate structure", cloneFunc)
 # eg("cluster", "N-level bi-clustering", clusterFunc)
-# eg("half", "1-level bi-clustering", halfFunc)
+eg("half", "1-level bi-clustering", halfFunc)
 # eg("around", "sorting nearest neighbors", aroundFunc)

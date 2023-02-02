@@ -2,6 +2,7 @@ import testfile as test
 from row import ROW
 from cols import COLS
 import utility as util
+from collections.abc import Iterable
 
 class DATA:
     def __init__(self, src):
@@ -49,7 +50,7 @@ class DATA:
         # map(init or {}, data.add(x))
         return data
 
-    def stats(self, what, cols, nPlaces, fun):
+    def stats(self, what, cols, nPlaces, fun=None):
         """
         Function:
             stats
@@ -63,10 +64,10 @@ class DATA:
         Output:
             map of cols y position and anonymous function that calculates the rounded stat
         """
-        # def fun(col):
-        #     mid = getattr(col, what or "mid")
-        #     rounded = round(float(mid()), nPlaces)
-        #     return (rounded, col.txt)
+        def fun(col):
+            mid = getattr(col, what or "mid")
+            rounded = round(float(mid()), nPlaces)
+            return (rounded, col.txt)
         return test.kap(cols or self.cols.y, fun)
 
     def better(self, row1, row2):
@@ -85,8 +86,13 @@ class DATA:
             d += col.dist(row1.cells[col.at], row2.cells[col.at]) ** util.args.p
         return (d / n) ** (1 / util.args.p)
 
-    def around(self, row1, rows, cols = None):
-        rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in rows.values() or self.rows]
+    def around(self, row1, rows = None, cols = None):
+        if isinstance(rows, Iterable):
+            iterable = rows
+        else:
+            iterable = self.rows
+
+        rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in iterable]
         sorted_rows = sorted(rows_with_distance, key=lambda x: x[1])
         return [(row, dist) for row, dist in sorted_rows]
         # return sorted(rows, key=lambda row2: {'row': row2, 'dist': self.dist(row1, row2, cols)})

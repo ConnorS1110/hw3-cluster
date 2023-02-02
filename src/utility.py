@@ -336,11 +336,11 @@ def aroundFunc():
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
-    print(0, 0, data.rows[1].cells)
-    print(data.cols.y)
-    for n, t in enumerate(data.around(data.rows[1], data.rows, data.cols)):
-        if n%50 == 0:
-            print(n, round(t.dist, 2), t.row.cells)
+    # print(data.cols.y)
+    # print(0, 0, data.rows[1].cells)
+    for n, t in enumerate(data.around(data.rows[1])):
+        if n % 50 == 0:
+            print(n, round(t[1], 2), t[0].cells)
 
 def halfFunc():
     script_dir = os.path.dirname(__file__)
@@ -354,3 +354,4 @@ def halfFunc():
     return
 
 
+    
