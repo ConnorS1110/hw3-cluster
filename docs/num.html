@@ -85,7 +85,7 @@
         return (self.m2 &lt; 0 or self.n &lt; 2) and 0 or (self.m2 / (self.n - 1)) ** 0.5
 
     def norm(self, n):
-        return n if n == &#34;?&#34; else (n - self.lo) / (self.hi - self.lo + 1 + 10 ** (-32))
+        return n if n == &#34;?&#34; else (float(n) - self.lo) / (self.hi - self.lo + 1 + 10 ** (-32))
 
     def dist(self, n1, n2):
         if n1 == &#34;?&#34; and n2 == &#34;?&#34;:
@@ -176,7 +176,7 @@
         return (self.m2 &lt; 0 or self.n &lt; 2) and 0 or (self.m2 / (self.n - 1)) ** 0.5
 
     def norm(self, n):
-        return n if n == &#34;?&#34; else (n - self.lo) / (self.hi - self.lo + 1 + 10 ** (-32))
+        return n if n == &#34;?&#34; else (float(n) - self.lo) / (self.hi - self.lo + 1 + 10 ** (-32))
 
     def dist(self, n1, n2):
         if n1 == &#34;?&#34; and n2 == &#34;?&#34;:
@@ -319,7 +319,7 @@ n - value to add</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def norm(self, n):
-    return n if n == &#34;?&#34; else (n - self.lo) / (self.hi - self.lo + 1 + 10 ** (-32))</code></pre>
+    return n if n == &#34;?&#34; else (float(n) - self.lo) / (self.hi - self.lo + 1 + 10 ** (-32))</code></pre>
 </details>
 </dd>
 </dl>

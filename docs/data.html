@@ -30,11 +30,15 @@
 from row import ROW
 from cols import COLS
 import utility as util
+from collections.abc import Iterable
+import copy
 
 class DATA:
+
     def __init__(self, src):
         self.rows = []
         self.cols = None
+        # self.halfCalls = 0
         fun = lambda x: self.add(x)
         if type(src) == str:
             test.readCSV(src, fun)
@@ -60,7 +64,7 @@ class DATA:
         else:
             self.cols = COLS(t)
 
-    def clone(self):
+    def clone(self, rows = None):
         &#34;&#34;&#34;
         Function:
             clone
@@ -74,10 +78,11 @@ class DATA:
             data - Clone of DATA object
         &#34;&#34;&#34;
         data = self
-        # map(init or {}, data.add(x))
+        if rows:
+            data.rows = rows
         return data
 
-    def stats(self, what, cols, nPlaces, fun):
+    def stats(self, what, cols, nPlaces, fun=None):
         &#34;&#34;&#34;
         Function:
             stats
@@ -91,10 +96,10 @@ class DATA:
         Output:
             map of cols y position and anonymous function that calculates the rounded stat
         &#34;&#34;&#34;
-        # def fun(col):
-        #     mid = getattr(col, what or &#34;mid&#34;)
-        #     rounded = round(float(mid()), nPlaces)
-        #     return (rounded, col.txt)
+        def fun(col):
+            mid = getattr(col, what or &#34;mid&#34;)
+            rounded = round(float(mid()), nPlaces)
+            return (rounded, col.txt)
         return test.kap(cols or self.cols.y, fun)
 
     def better(self, row1, row2):
@@ -106,55 +111,70 @@ class DATA:
             s2 -= col.w ** ((y - x) / len(ys))
         return (s1 / len(ys)) &lt; (s2 / len(ys))
 
-    def dist(self, row1, row2, cols):
+    def dist(self, row1, row2, cols = None):
         n, d = 0, 0
         for col in (cols or self.cols.x):
             n += 1
             d += col.dist(row1.cells[col.at], row2.cells[col.at]) ** util.args.p
         return (d / n) ** (1 / util.args.p)
 
-    def around(self, row1, rows, cols):
-        return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})
+    def around(self, row1, rows = None, cols = None):
+        if isinstance(rows, Iterable):
+            iterable = rows
+        else:
+            iterable = self.rows
 
-    def half(self, rows, cols, above):
+        rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in iterable]
+        sorted_rows = sorted(rows_with_distance, key=lambda x: x[1])
+        return [(row, dist) for row, dist in sorted_rows]
+        # return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})
+
+    def half(self, rows = None, cols = None, above = None):
         A, B, left, right, c, mid, some = None, None, None, None, None, None, None
         def project(row):
-            return {&#39;row&#39;: row, &#39;dist&#39;: util.cosine(dist(row, A), dist(row, B), c)}
+            return {&#39;row&#39;: row, &#39;dist&#39;: util.cosine(dist(row, A), dist(row, B), c)[1]}
         def dist(row1, row2):
             return self.dist(row1, row2, cols)
         rows = rows or self.rows
         some = util.many(rows, util.args.Sample)
         A = above or util.any(some)
-        B = self.around[round(util.args.Far * len(rows)) - 1][&#39;row&#39;]
+        B = self.around(A, some)[int((util.args.Far * len(rows)) // 1)][0]
         c = dist(A, B)
-        left, right = {}, {}
-        for n, tmp in enumerate(sorted(map(project, rows), key=util.lt(&#34;dist&#34;))):
+        left, right = [], []
+        mapVAR = [project(row) for row in rows]
+        sorted_rows = sorted(mapVAR, key=lambda x: x[&#34;dist&#34;])
+        for n, tmp in enumerate(sorted_rows):
             if n &lt;= len(rows) // 2:
-                left.append(tmp.row)
-                mid = tmp.row
+                left.append(tmp[&#34;row&#34;])
+                mid = tmp[&#34;row&#34;]
             else:
-                right.append(tmp.row)
+                right.append(tmp[&#34;row&#34;])
+        # print(&#34;len of left&#34; + str(len(left)))
+        # print(&#34;len of right&#34; + str(len(right)))
         return left, right, A, B, mid, c
 
-    def cluster(self, rows, min, cols, above):
+    def cluster(self, rows = None, min = None, cols = None, above = None):
         rows = rows if rows else self.rows
-        min = min if min else len(rows)**util.args.min
+        min = min if min else len(rows) ** util.args.min
         cols = cols if cols else self.cols.x
         node = {&#34;data&#34;: self.clone(rows)}
 
-        if len(rows)&gt;2*min:
-            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+        if len(rows) &gt; 2 * min:
+            # print(len(self.half(rows, cols, above)))
+            # self.halfCalls += 1
+            # print(&#34;# of half calls: &#34; + str(self.halfCalls))
+            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;], _ = self.half(rows, cols, above)
             node[&#34;left&#34;] = self.cluster(left, min, cols, node[&#34;A&#34;])
             node[&#34;right&#34;] = self.cluster(right, min, cols, node[&#34;B&#34;])
         return node
 
     def sway(self, rows, min, cols, above):
         rows = rows if rows else self.rows
-        min = min if min else len(rows)**util.args.min
+        min = min if min else len(rows) ** util.args.min
         cols = cols if cols else self.cols.x
         node = {&#34;data&#34;: self.clone(rows)}
 
-        if len(rows)&gt;2*min:
+        if len(rows) &gt; 2 * min:
            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
            if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):
                left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
@@ -183,9 +203,11 @@ class DATA:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DATA:
+
     def __init__(self, src):
         self.rows = []
         self.cols = None
+        # self.halfCalls = 0
         fun = lambda x: self.add(x)
         if type(src) == str:
             test.readCSV(src, fun)
@@ -211,7 +233,7 @@ class DATA:
         else:
             self.cols = COLS(t)
 
-    def clone(self):
+    def clone(self, rows = None):
         &#34;&#34;&#34;
         Function:
             clone
@@ -225,10 +247,11 @@ class DATA:
             data - Clone of DATA object
         &#34;&#34;&#34;
         data = self
-        # map(init or {}, data.add(x))
+        if rows:
+            data.rows = rows
         return data
 
-    def stats(self, what, cols, nPlaces, fun):
+    def stats(self, what, cols, nPlaces, fun=None):
         &#34;&#34;&#34;
         Function:
             stats
@@ -242,10 +265,10 @@ class DATA:
         Output:
             map of cols y position and anonymous function that calculates the rounded stat
         &#34;&#34;&#34;
-        # def fun(col):
-        #     mid = getattr(col, what or &#34;mid&#34;)
-        #     rounded = round(float(mid()), nPlaces)
-        #     return (rounded, col.txt)
+        def fun(col):
+            mid = getattr(col, what or &#34;mid&#34;)
+            rounded = round(float(mid()), nPlaces)
+            return (rounded, col.txt)
         return test.kap(cols or self.cols.y, fun)
 
     def better(self, row1, row2):
@@ -257,55 +280,70 @@ class DATA:
             s2 -= col.w ** ((y - x) / len(ys))
         return (s1 / len(ys)) &lt; (s2 / len(ys))
 
-    def dist(self, row1, row2, cols):
+    def dist(self, row1, row2, cols = None):
         n, d = 0, 0
         for col in (cols or self.cols.x):
             n += 1
             d += col.dist(row1.cells[col.at], row2.cells[col.at]) ** util.args.p
         return (d / n) ** (1 / util.args.p)
 
-    def around(self, row1, rows, cols):
-        return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})
+    def around(self, row1, rows = None, cols = None):
+        if isinstance(rows, Iterable):
+            iterable = rows
+        else:
+            iterable = self.rows
 
-    def half(self, rows, cols, above):
+        rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in iterable]
+        sorted_rows = sorted(rows_with_distance, key=lambda x: x[1])
+        return [(row, dist) for row, dist in sorted_rows]
+        # return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})
+
+    def half(self, rows = None, cols = None, above = None):
         A, B, left, right, c, mid, some = None, None, None, None, None, None, None
         def project(row):
-            return {&#39;row&#39;: row, &#39;dist&#39;: util.cosine(dist(row, A), dist(row, B), c)}
+            return {&#39;row&#39;: row, &#39;dist&#39;: util.cosine(dist(row, A), dist(row, B), c)[1]}
         def dist(row1, row2):
             return self.dist(row1, row2, cols)
         rows = rows or self.rows
         some = util.many(rows, util.args.Sample)
         A = above or util.any(some)
-        B = self.around[round(util.args.Far * len(rows)) - 1][&#39;row&#39;]
+        B = self.around(A, some)[int((util.args.Far * len(rows)) // 1)][0]
         c = dist(A, B)
-        left, right = {}, {}
-        for n, tmp in enumerate(sorted(map(project, rows), key=util.lt(&#34;dist&#34;))):
+        left, right = [], []
+        mapVAR = [project(row) for row in rows]
+        sorted_rows = sorted(mapVAR, key=lambda x: x[&#34;dist&#34;])
+        for n, tmp in enumerate(sorted_rows):
             if n &lt;= len(rows) // 2:
-                left.append(tmp.row)
-                mid = tmp.row
+                left.append(tmp[&#34;row&#34;])
+                mid = tmp[&#34;row&#34;]
             else:
-                right.append(tmp.row)
+                right.append(tmp[&#34;row&#34;])
+        # print(&#34;len of left&#34; + str(len(left)))
+        # print(&#34;len of right&#34; + str(len(right)))
         return left, right, A, B, mid, c
 
-    def cluster(self, rows, min, cols, above):
+    def cluster(self, rows = None, min = None, cols = None, above = None):
         rows = rows if rows else self.rows
-        min = min if min else len(rows)**util.args.min
+        min = min if min else len(rows) ** util.args.min
         cols = cols if cols else self.cols.x
         node = {&#34;data&#34;: self.clone(rows)}
 
-        if len(rows)&gt;2*min:
-            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+        if len(rows) &gt; 2 * min:
+            # print(len(self.half(rows, cols, above)))
+            # self.halfCalls += 1
+            # print(&#34;# of half calls: &#34; + str(self.halfCalls))
+            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;], _ = self.half(rows, cols, above)
             node[&#34;left&#34;] = self.cluster(left, min, cols, node[&#34;A&#34;])
             node[&#34;right&#34;] = self.cluster(right, min, cols, node[&#34;B&#34;])
         return node
 
     def sway(self, rows, min, cols, above):
         rows = rows if rows else self.rows
-        min = min if min else len(rows)**util.args.min
+        min = min if min else len(rows) ** util.args.min
         cols = cols if cols else self.cols.x
         node = {&#34;data&#34;: self.clone(rows)}
 
-        if len(rows)&gt;2*min:
+        if len(rows) &gt; 2 * min:
            left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
            if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):
                left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
@@ -353,7 +391,7 @@ t - data to be added</p>
 </details>
 </dd>
 <dt id="src.data.DATA.around"><code class="name flex">
-<span>def <span class="ident">around</span></span>(<span>self, row1, rows, cols)</span>
+<span>def <span class="ident">around</span></span>(<span>self, row1, rows=None, cols=None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -361,8 +399,16 @@ t - data to be added</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def around(self, row1, rows, cols):
-    return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})</code></pre>
+<pre><code class="python">def around(self, row1, rows = None, cols = None):
+    if isinstance(rows, Iterable):
+        iterable = rows
+    else:
+        iterable = self.rows
+
+    rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in iterable]
+    sorted_rows = sorted(rows_with_distance, key=lambda x: x[1])
+    return [(row, dist) for row, dist in sorted_rows]
+    # return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})</code></pre>
 </details>
 </dd>
 <dt id="src.data.DATA.better"><code class="name flex">
@@ -385,7 +431,7 @@ t - data to be added</p>
 </details>
 </dd>
 <dt id="src.data.DATA.clone"><code class="name flex">
-<span>def <span class="ident">clone</span></span>(<span>self)</span>
+<span>def <span class="ident">clone</span></span>(<span>self, rows=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><h2 id="function">Function</h2>
@@ -402,7 +448,7 @@ x - data to be cloned</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def clone(self):
+<pre><code class="python">def clone(self, rows = None):
     &#34;&#34;&#34;
     Function:
         clone
@@ -416,12 +462,13 @@ x - data to be cloned</p>
         data - Clone of DATA object
     &#34;&#34;&#34;
     data = self
-    # map(init or {}, data.add(x))
+    if rows:
+        data.rows = rows
     return data</code></pre>
 </details>
 </dd>
 <dt id="src.data.DATA.cluster"><code class="name flex">
-<span>def <span class="ident">cluster</span></span>(<span>self, rows, min, cols, above)</span>
+<span>def <span class="ident">cluster</span></span>(<span>self, rows=None, min=None, cols=None, above=None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -429,21 +476,24 @@ x - data to be cloned</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def cluster(self, rows, min, cols, above):
+<pre><code class="python">def cluster(self, rows = None, min = None, cols = None, above = None):
     rows = rows if rows else self.rows
-    min = min if min else len(rows)**util.args.min
+    min = min if min else len(rows) ** util.args.min
     cols = cols if cols else self.cols.x
     node = {&#34;data&#34;: self.clone(rows)}
 
-    if len(rows)&gt;2*min:
-        left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+    if len(rows) &gt; 2 * min:
+        # print(len(self.half(rows, cols, above)))
+        # self.halfCalls += 1
+        # print(&#34;# of half calls: &#34; + str(self.halfCalls))
+        left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;], _ = self.half(rows, cols, above)
         node[&#34;left&#34;] = self.cluster(left, min, cols, node[&#34;A&#34;])
         node[&#34;right&#34;] = self.cluster(right, min, cols, node[&#34;B&#34;])
     return node</code></pre>
 </details>
 </dd>
 <dt id="src.data.DATA.dist"><code class="name flex">
-<span>def <span class="ident">dist</span></span>(<span>self, row1, row2, cols)</span>
+<span>def <span class="ident">dist</span></span>(<span>self, row1, row2, cols=None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -451,7 +501,7 @@ x - data to be cloned</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def dist(self, row1, row2, cols):
+<pre><code class="python">def dist(self, row1, row2, cols = None):
     n, d = 0, 0
     for col in (cols or self.cols.x):
         n += 1
@@ -460,7 +510,7 @@ x - data to be cloned</p>
 </details>
 </dd>
 <dt id="src.data.DATA.half"><code class="name flex">
-<span>def <span class="ident">half</span></span>(<span>self, rows, cols, above)</span>
+<span>def <span class="ident">half</span></span>(<span>self, rows=None, cols=None, above=None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -468,29 +518,33 @@ x - data to be cloned</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def half(self, rows, cols, above):
+<pre><code class="python">def half(self, rows = None, cols = None, above = None):
     A, B, left, right, c, mid, some = None, None, None, None, None, None, None
     def project(row):
-        return {&#39;row&#39;: row, &#39;dist&#39;: util.cosine(dist(row, A), dist(row, B), c)}
+        return {&#39;row&#39;: row, &#39;dist&#39;: util.cosine(dist(row, A), dist(row, B), c)[1]}
     def dist(row1, row2):
         return self.dist(row1, row2, cols)
     rows = rows or self.rows
     some = util.many(rows, util.args.Sample)
     A = above or util.any(some)
-    B = self.around[round(util.args.Far * len(rows)) - 1][&#39;row&#39;]
+    B = self.around(A, some)[int((util.args.Far * len(rows)) // 1)][0]
     c = dist(A, B)
-    left, right = {}, {}
-    for n, tmp in enumerate(sorted(map(project, rows), key=util.lt(&#34;dist&#34;))):
+    left, right = [], []
+    mapVAR = [project(row) for row in rows]
+    sorted_rows = sorted(mapVAR, key=lambda x: x[&#34;dist&#34;])
+    for n, tmp in enumerate(sorted_rows):
         if n &lt;= len(rows) // 2:
-            left.append(tmp.row)
-            mid = tmp.row
+            left.append(tmp[&#34;row&#34;])
+            mid = tmp[&#34;row&#34;]
         else:
-            right.append(tmp.row)
+            right.append(tmp[&#34;row&#34;])
+    # print(&#34;len of left&#34; + str(len(left)))
+    # print(&#34;len of right&#34; + str(len(right)))
     return left, right, A, B, mid, c</code></pre>
 </details>
 </dd>
 <dt id="src.data.DATA.stats"><code class="name flex">
-<span>def <span class="ident">stats</span></span>(<span>self, what, cols, nPlaces, fun)</span>
+<span>def <span class="ident">stats</span></span>(<span>self, what, cols, nPlaces, fun=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><h2 id="function">Function</h2>
@@ -508,7 +562,7 @@ nPlaces - # of decimal places stat is rounded to</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def stats(self, what, cols, nPlaces, fun):
+<pre><code class="python">def stats(self, what, cols, nPlaces, fun=None):
     &#34;&#34;&#34;
     Function:
         stats
@@ -522,10 +576,10 @@ nPlaces - # of decimal places stat is rounded to</p>
     Output:
         map of cols y position and anonymous function that calculates the rounded stat
     &#34;&#34;&#34;
-    # def fun(col):
-    #     mid = getattr(col, what or &#34;mid&#34;)
-    #     rounded = round(float(mid()), nPlaces)
-    #     return (rounded, col.txt)
+    def fun(col):
+        mid = getattr(col, what or &#34;mid&#34;)
+        rounded = round(float(mid()), nPlaces)
+        return (rounded, col.txt)
     return test.kap(cols or self.cols.y, fun)</code></pre>
 </details>
 </dd>
@@ -540,11 +594,11 @@ nPlaces - # of decimal places stat is rounded to</p>
 </summary>
 <pre><code class="python">def sway(self, rows, min, cols, above):
     rows = rows if rows else self.rows
-    min = min if min else len(rows)**util.args.min
+    min = min if min else len(rows) ** util.args.min
     cols = cols if cols else self.cols.x
     node = {&#34;data&#34;: self.clone(rows)}
 
-    if len(rows)&gt;2*min:
+    if len(rows) &gt; 2 * min:
        left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
        if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):
            left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]

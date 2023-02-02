@@ -28,6 +28,7 @@
 </summary>
 <pre><code class="python">import argparse
 import csv
+import math
 import os
 from num import NUM
 from sym import SYM
@@ -62,14 +63,17 @@ n = 0
 
 def show(node, what, cols, nPlaces, lvl=None):
     if node:
-        lv1 = lv1 or 0
-        print(&#34;| &#34; * lvl + str(len(node.data.rows)) + &#34; &#34;, end=&#34;&#34;)
-        print(not node.left or lvl == 0) and print(node.data.stats(&#34;mid&#34;, node.data.cols.y, nPlaces) or &#34;&#34;)
-        show(node.left, what,cols, nPlaces, lvl+1)
-        show(node.right, what,cols,nPlaces, lvl+1)
+        lvl = lvl or 0
+        print(&#34;| &#34; * lvl + str(len(node[&#34;data&#34;].rows)) + &#34; &#34;, end=&#34;&#34;)
+        if (&#34;left&#34; not in node) or lvl == 0:
+            print(node[&#34;data&#34;].stats(&#34;mid&#34;, node[&#34;data&#34;].cols.y, nPlaces))
+        else:
+            print(&#34;&#34;)
+        show(node.get(&#34;left&#34;, None), what,cols, nPlaces, lvl+1)
+        show(node.get(&#34;right&#34;, None), what,cols,nPlaces, lvl+1)
 
-def rint(lo, hi):
-    floor(0.5 + rand(lo, hi))
+def rint(lo = None, hi = None):
+    return math.floor(0.5 + rand(lo, hi))
 
 def eg(key, string, fun):
     &#34;&#34;&#34;
@@ -135,13 +139,14 @@ def cosine(a, b, c):
 
 
 def many(t, n):
-    u = {}
-    for i in range(1, n+1):
-        u[1 + len(u)] = any(t)
+    u = []
+    for i in range(1, n + 1):
+        u.append(any(t))
     return u
 
 def any(t):
-    return t[rint(len(t))]
+    rintVal = rint(None, len(t) - 1)
+    return t[rintVal]
 
 def lt(x):
     def fun(a, b):
@@ -344,7 +349,31 @@ def cloneFunc():
     return (len(data1.rows) == len(data2.rows) and
             data1.cols.y[1].w == data2.cols.y[1].w and
             data1.cols.x[1].at == data2.cols.x[1].at and
-            len(data1.cols.x) == len(data2.cols.x))</code></pre>
+            len(data1.cols.x) == len(data2.cols.x))
+
+def clusterFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    show(data.cluster(), &#34;mid&#34;, data.cols.y, 1)
+
+def aroundFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    for n, t in enumerate(data.around(data.rows[1])):
+        if n % 50 == 0:
+            print(n, round(t[1], 2), t[0].cells)
+
+def halfFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    left, right, A, B, mid, c = data.half()
+    print(len(left), len(right), len(data.rows))
+    print(A.cells, c)
+    print(mid.cells)
+    print(B.cells)</code></pre>
 </details>
 </section>
 <section>
@@ -364,7 +393,26 @@ def cloneFunc():
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def any(t):
-    return t[rint(len(t))]</code></pre>
+    rintVal = rint(None, len(t) - 1)
+    return t[rintVal]</code></pre>
+</details>
+</dd>
+<dt id="src.utility.aroundFunc"><code class="name flex">
+<span>def <span class="ident">aroundFunc</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def aroundFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    for n, t in enumerate(data.around(data.rows[1])):
+        if n % 50 == 0:
+            print(n, round(t[1], 2), t[0].cells)</code></pre>
 </details>
 </dd>
 <dt id="src.utility.cloneFunc"><code class="name flex">
@@ -385,6 +433,22 @@ def cloneFunc():
             data1.cols.y[1].w == data2.cols.y[1].w and
             data1.cols.x[1].at == data2.cols.x[1].at and
             len(data1.cols.x) == len(data2.cols.x))</code></pre>
+</details>
+</dd>
+<dt id="src.utility.clusterFunc"><code class="name flex">
+<span>def <span class="ident">clusterFunc</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clusterFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    show(data.cluster(), &#34;mid&#34;, data.cols.y, 1)</code></pre>
 </details>
 </dd>
 <dt id="src.utility.cosine"><code class="name flex">
@@ -587,6 +651,26 @@ fun - callback function to use for test case</p>
     args = parser.parse_args()</code></pre>
 </details>
 </dd>
+<dt id="src.utility.halfFunc"><code class="name flex">
+<span>def <span class="ident">halfFunc</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def halfFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    left, right, A, B, mid, c = data.half()
+    print(len(left), len(right), len(data.rows))
+    print(A.cells, c)
+    print(mid.cells)
+    print(B.cells)</code></pre>
+</details>
+</dd>
 <dt id="src.utility.kap"><code class="name flex">
 <span>def <span class="ident">kap</span></span>(<span>listOfCols, fun)</span>
 </code></dt>
@@ -648,9 +732,9 @@ fun - anonymous function to be used as value in map</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def many(t, n):
-    u = {}
-    for i in range(1, n+1):
-        u[1 + len(u)] = any(t)
+    u = []
+    for i in range(1, n + 1):
+        u.append(any(t))
     return u</code></pre>
 </details>
 </dd>
@@ -847,7 +931,7 @@ fun - callback function to be called for each line in the CSV</p>
 </details>
 </dd>
 <dt id="src.utility.rint"><code class="name flex">
-<span>def <span class="ident">rint</span></span>(<span>lo, hi)</span>
+<span>def <span class="ident">rint</span></span>(<span>lo=None, hi=None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -855,8 +939,8 @@ fun - callback function to be called for each line in the CSV</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def rint(lo, hi):
-    floor(0.5 + rand(lo, hi))</code></pre>
+<pre><code class="python">def rint(lo = None, hi = None):
+    return math.floor(0.5 + rand(lo, hi))</code></pre>
 </details>
 </dd>
 <dt id="src.utility.show"><code class="name flex">
@@ -870,11 +954,14 @@ fun - callback function to be called for each line in the CSV</p>
 </summary>
 <pre><code class="python">def show(node, what, cols, nPlaces, lvl=None):
     if node:
-        lv1 = lv1 or 0
-        print(&#34;| &#34; * lvl + str(len(node.data.rows)) + &#34; &#34;, end=&#34;&#34;)
-        print(not node.left or lvl == 0) and print(node.data.stats(&#34;mid&#34;, node.data.cols.y, nPlaces) or &#34;&#34;)
-        show(node.left, what,cols, nPlaces, lvl+1)
-        show(node.right, what,cols,nPlaces, lvl+1)</code></pre>
+        lvl = lvl or 0
+        print(&#34;| &#34; * lvl + str(len(node[&#34;data&#34;].rows)) + &#34; &#34;, end=&#34;&#34;)
+        if (&#34;left&#34; not in node) or lvl == 0:
+            print(node[&#34;data&#34;].stats(&#34;mid&#34;, node[&#34;data&#34;].cols.y, nPlaces))
+        else:
+            print(&#34;&#34;)
+        show(node.get(&#34;left&#34;, None), what,cols, nPlaces, lvl+1)
+        show(node.get(&#34;right&#34;, None), what,cols,nPlaces, lvl+1)</code></pre>
 </details>
 </dd>
 <dt id="src.utility.statsFunc"><code class="name flex">
@@ -964,13 +1051,16 @@ fun - callback function to be called for each line in the CSV</p>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="two-column">
 <li><code><a title="src.utility.any" href="#src.utility.any">any</a></code></li>
+<li><code><a title="src.utility.aroundFunc" href="#src.utility.aroundFunc">aroundFunc</a></code></li>
 <li><code><a title="src.utility.cloneFunc" href="#src.utility.cloneFunc">cloneFunc</a></code></li>
+<li><code><a title="src.utility.clusterFunc" href="#src.utility.clusterFunc">clusterFunc</a></code></li>
 <li><code><a title="src.utility.cosine" href="#src.utility.cosine">cosine</a></code></li>
 <li><code><a title="src.utility.crashFunc" href="#src.utility.crashFunc">crashFunc</a></code></li>
 <li><code><a title="src.utility.csvFunc" href="#src.utility.csvFunc">csvFunc</a></code></li>
 <li><code><a title="src.utility.dataFunc" href="#src.utility.dataFunc">dataFunc</a></code></li>
 <li><code><a title="src.utility.eg" href="#src.utility.eg">eg</a></code></li>
 <li><code><a title="src.utility.getCliArgs" href="#src.utility.getCliArgs">getCliArgs</a></code></li>
+<li><code><a title="src.utility.halfFunc" href="#src.utility.halfFunc">halfFunc</a></code></li>
 <li><code><a title="src.utility.kap" href="#src.utility.kap">kap</a></code></li>
 <li><code><a title="src.utility.lt" href="#src.utility.lt">lt</a></code></li>
 <li><code><a title="src.utility.many" href="#src.utility.many">many</a></code></li>
