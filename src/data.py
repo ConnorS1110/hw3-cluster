@@ -100,7 +100,7 @@ class DATA:
         rows = rows or self.rows
         some = util.many(rows, util.args.Sample)
         A = above or util.any(some)
-        B = self.around(A, some)[int((util.args.Far * len(rows)) // 1)]
+        B = self.around(A, some)[int((util.args.Far * len(rows)) // 1)][0]
         c = dist(A, B)
         left, right = {}, {}
         for n, tmp in enumerate(sorted(map(project, rows), key=util.lt("dist"))):

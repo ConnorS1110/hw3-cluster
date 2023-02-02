@@ -116,9 +116,9 @@ def many(t, n):
 
 def any(t):
     rintVal = rint(None, len(t) - 1)
-    print("Len of t: " + str(len(t)))
-    print("Rint value: " + str(rintVal))
-    print(t[rintVal])
+    # print("Len of t: " + str(len(t)))
+    # print("Rint value: " + str(rintVal))
+    # print(t[rintVal])
     return t[rintVal]
 
 def lt(x):
