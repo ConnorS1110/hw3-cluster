@@ -94,7 +94,7 @@ class DATA:
     def half(self, rows, cols, above):
         A, B, left, right, c, mid, some = None, None, None, None, None, None, None
         def project(row):
-            return {'row': row, 'dist': util.cosine(dist(row, A), dist(row, B), c)}
+            return {'row': row, 'dist': util.cosine(dist(row, A), dist(row, B), c)[1]}
         def dist(row1, row2):
             return self.dist(row1, row2, cols)
         rows = rows or self.rows
@@ -102,17 +102,17 @@ class DATA:
         A = above or util.any(some)
         B = self.around(A, some)[int((util.args.Far * len(rows)) // 1)][0]
         c = dist(A, B)
-        left, right = {}, {}
-        mapVAR = map(project, rows)
-        # mapVAR = map(project, row) for row in rows
+        left, right = [], []
+        # mapVAR = map(project, rows)
+        mapVAR = [project(row) for row in rows]
         # for n, tmp in enumerate(sorted(map(project, rows), key=util.lt("dist"))):
-        sorted_rows = sorted(project(rows), key=lambda x: x["dist"])
+        sorted_rows = sorted(mapVAR, key=lambda x: x["dist"])
         for n, tmp in enumerate(sorted_rows):
             if n <= len(rows) // 2:
-                left.append(tmp.row)
-                mid = tmp.row
+                left.append(tmp["row"])
+                mid = tmp["row"]
             else:
-                right.append(tmp.row)
+                right.append(tmp["row"])
         return left, right, A, B, mid, c
 
     def cluster(self, rows = None, min = None, cols = None, above = None):
@@ -122,7 +122,8 @@ class DATA:
         node = {"data": self.clone()}
 
         if len(rows) > 2 * min:
-            left, right, node["A"], node["B"], node["mid"] = self.half(rows, cols, above)
+            # print(len(self.half(rows, cols, above)))
+            left, right, node["A"], node["B"], node["mid"], _ = self.half(rows, cols, above)
             node["left"] = self.cluster(left, min, cols, node["A"])
             node["right"] = self.cluster(right, min, cols, node["B"])
         return node
