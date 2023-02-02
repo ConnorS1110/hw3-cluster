@@ -91,7 +91,7 @@ class DATA:
         return [(row, dist) for row, dist in sorted_rows]
         # return sorted(rows, key=lambda row2: {'row': row2, 'dist': self.dist(row1, row2, cols)})
 
-    def half(self, rows, cols, above):
+    def half(self, rows = None, cols = None, above = None):
         A, B, left, right, c, mid, some = None, None, None, None, None, None, None
         def project(row):
             return {'row': row, 'dist': util.cosine(dist(row, A), dist(row, B), c)[1]}

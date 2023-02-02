@@ -331,3 +331,26 @@ def clusterFunc():
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
     show(data.cluster(), "mid", data.cols.y, 1)
+
+def aroundFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    print(0, 0, data.rows[1].cells)
+    print(data.cols.y)
+    for n, t in enumerate(data.around(data.rows[1], data.rows, data.cols)):
+        if n%50 == 0:
+            print(n, round(t.dist, 2), t.row.cells)
+
+def halfFunc():
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    left, right, A, B, mid, c = data.half()
+    print(len(left), len(right), len(data.rows))
+    print(A.cells, c)
+    print(mid.cells)
+    print(B.cells)
+    return
+
+
