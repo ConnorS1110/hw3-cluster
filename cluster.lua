@@ -165,7 +165,7 @@ function DATA.around(i,row1,  rows,cols) --> t; sort other `rows` by distance to
                   function(row2)  return {row=row2, dist=i:dist(row1,row2,cols)} end),lt"dist") end
 
 function DATA.half(i,rows,  cols,above) --> t,t,row,row,row,n; divides data using 2 far points
-  local A,B,left,right,c,dist,mid,some,project
+  local A,B,left,right,c,dist,mid,some,project, mapVAR
   function project(row)    return {row=row, dist=cosine(dist(row,A), dist(row,B), c)} end
   function dist(row1,row2) return i:dist(row1,row2,cols) end
   rows = rows or i.rows
@@ -174,6 +174,7 @@ function DATA.half(i,rows,  cols,above) --> t,t,row,row,row,n; divides data usin
   B    = i:around(A,some)[(the.Far * #rows)//1].row
   c    = dist(A,B)
   left, right = {}, {}
+  mapVAR = map(rows, project)
   for n,tmp in pairs(sort(map(rows, project), lt"dist")) do
     if   n <= #rows//2
     then push(left,  tmp.row); mid = tmp.row

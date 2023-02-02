@@ -103,7 +103,11 @@ class DATA:
         B = self.around(A, some)[int((util.args.Far * len(rows)) // 1)][0]
         c = dist(A, B)
         left, right = {}, {}
-        for n, tmp in enumerate(sorted(map(project, rows), key=util.lt("dist"))):
+        mapVAR = map(project, rows)
+        # mapVAR = map(project, row) for row in rows
+        # for n, tmp in enumerate(sorted(map(project, rows), key=util.lt("dist"))):
+        sorted_rows = sorted(project(rows), key=lambda x: x["dist"])
+        for n, tmp in enumerate(sorted_rows):
             if n <= len(rows) // 2:
                 left.append(tmp.row)
                 mid = tmp.row
