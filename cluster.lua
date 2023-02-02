@@ -359,24 +359,24 @@ function eg(key,str, fun) --> nil; register an example.
 --          data1.cols.x[1].at == data2.cols.x[1].at and
 --          #data1.cols.x==#data2.cols.x end)
 
-eg("around", "sorting nearest neighbors", function(     data)
-  data=DATA(the.file)
-  print(0,0,o(data.rows[1].cells))
-  for n,t in   pairs(data:around(data.rows[1])) do
-    if n %50 ==0 then print(n, rnd(t.dist,2) ,o(t.row.cells)) end end end)
-
-eg("half", "1-level bi-clustering", function(     data)
-  data=DATA(the.file)
-  local left,right,A,B,mid,c = data:half()
-  print(#left,#right,#data.rows)
-  print(o(A.cells),c)
-  print(o(mid.cells))
-  print(o(B.cells)) end)
-
--- eg("cluster", "N-level bi-clustering", function(     data)
+-- eg("around", "sorting nearest neighbors", function(     data)
 --   data=DATA(the.file)
---   show(data:cluster(),"mid",data.cols.y,1)
---   end)
+--   print(0,0,o(data.rows[1].cells))
+--   for n,t in   pairs(data:around(data.rows[1])) do
+--     if n %50 ==0 then print(n, rnd(t.dist,2) ,o(t.row.cells)) end end end)
+
+-- eg("half", "1-level bi-clustering", function(     data)
+--   data=DATA(the.file)
+--   local left,right,A,B,mid,c = data:half()
+--   print(#left,#right,#data.rows)
+--   print(o(A.cells),c)
+--   print(o(mid.cells))
+--   print(o(B.cells)) end)
+
+eg("cluster", "N-level bi-clustering", function(     data)
+  data=DATA(the.file)
+  show(data:cluster(),"mid",data.cols.y,1)
+  end)
 
 -- eg("optimize", "semi-supervised optimization", function(     data)
 --   data=DATA(the.file)

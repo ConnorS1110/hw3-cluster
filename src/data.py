@@ -3,11 +3,14 @@ from row import ROW
 from cols import COLS
 import utility as util
 from collections.abc import Iterable
+import copy
 
 class DATA:
+
     def __init__(self, src):
         self.rows = []
         self.cols = None
+        # self.halfCalls = 0
         fun = lambda x: self.add(x)
         if type(src) == str:
             test.readCSV(src, fun)
@@ -33,7 +36,7 @@ class DATA:
         else:
             self.cols = COLS(t)
 
-    def clone(self):
+    def clone(self, rows = None):
         """
         Function:
             clone
@@ -47,7 +50,8 @@ class DATA:
             data - Clone of DATA object
         """
         data = self
-        # map(init or {}, data.add(x))
+        if rows:
+            data.rows = rows
         return data
 
     def stats(self, what, cols, nPlaces, fun=None):
@@ -109,9 +113,7 @@ class DATA:
         B = self.around(A, some)[int((util.args.Far * len(rows)) // 1)][0]
         c = dist(A, B)
         left, right = [], []
-        # mapVAR = map(project, rows)
         mapVAR = [project(row) for row in rows]
-        # for n, tmp in enumerate(sorted(map(project, rows), key=util.lt("dist"))):
         sorted_rows = sorted(mapVAR, key=lambda x: x["dist"])
         for n, tmp in enumerate(sorted_rows):
             if n <= len(rows) // 2:
@@ -119,18 +121,20 @@ class DATA:
                 mid = tmp["row"]
             else:
                 right.append(tmp["row"])
-        print("len of left" + str(len(left)))
-        print("len of right" + str(len(right)))
+        # print("len of left" + str(len(left)))
+        # print("len of right" + str(len(right)))
         return left, right, A, B, mid, c
 
     def cluster(self, rows = None, min = None, cols = None, above = None):
         rows = rows if rows else self.rows
         min = min if min else len(rows) ** util.args.min
         cols = cols if cols else self.cols.x
-        node = {"data": self.clone()}
+        node = {"data": self.clone(rows)}
 
         if len(rows) > 2 * min:
             # print(len(self.half(rows, cols, above)))
+            # self.halfCalls += 1
+            # print("# of half calls: " + str(self.halfCalls))
             left, right, node["A"], node["B"], node["mid"], _ = self.half(rows, cols, above)
             node["left"] = self.cluster(left, min, cols, node["A"])
             node["right"] = self.cluster(right, min, cols, node["B"])

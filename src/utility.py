@@ -41,8 +41,8 @@ def show(node, what, cols, nPlaces, lvl=None):
             print(node["data"].stats("mid", node["data"].cols.y, nPlaces))
         else:
             print("")
-        show(node["left"], what,cols, nPlaces, lvl+1)
-        show(node["right"], what,cols,nPlaces, lvl+1)
+        show(node.get("left", None), what,cols, nPlaces, lvl+1)
+        show(node.get("right", None), what,cols,nPlaces, lvl+1)
 
 def rint(lo = None, hi = None):
     return math.floor(0.5 + rand(lo, hi))
@@ -327,15 +327,12 @@ def clusterFunc():
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
-    clusterVAR = data.cluster()
     show(data.cluster(), "mid", data.cols.y, 1)
 
 def aroundFunc():
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
-    # print(data.cols.y)
-    # print(0, 0, data.rows[1].cells)
     for n, t in enumerate(data.around(data.rows[1])):
         if n % 50 == 0:
             print(n, round(t[1], 2), t[0].cells)
@@ -349,4 +346,3 @@ def halfFunc():
     print(A.cells, c)
     print(mid.cells)
     print(B.cells)
-    return
