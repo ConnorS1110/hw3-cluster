@@ -37,7 +37,7 @@ def show(node, what, cols, nPlaces, lvl=None):
     if node:
         lvl = lvl or 0
         print("| " * lvl + str(len(node["data"].rows)) + " ", end="")
-        if not node["left"] or lvl == 0:
+        if ("left" not in node) or lvl == 0:
             print(node["data"].stats("mid", node["data"].cols.y, nPlaces))
         else:
             print("")
@@ -111,16 +111,13 @@ def cosine(a, b, c):
 
 
 def many(t, n):
-    u = {}
+    u = []
     for i in range(1, n + 1):
-        u[1 + len(u)] = any(t)
+        u.append(any(t))
     return u
 
 def any(t):
     rintVal = rint(None, len(t) - 1)
-    # print("Len of t: " + str(len(t)))
-    # print("Rint value: " + str(rintVal))
-    # print(t[rintVal])
     return t[rintVal]
 
 def lt(x):
@@ -330,6 +327,7 @@ def clusterFunc():
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
+    clusterVAR = data.cluster()
     show(data.cluster(), "mid", data.cols.y, 1)
 
 def aroundFunc():
@@ -352,6 +350,3 @@ def halfFunc():
     print(mid.cells)
     print(B.cells)
     return
-
-
-    

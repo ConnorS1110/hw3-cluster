@@ -119,6 +119,8 @@ class DATA:
                 mid = tmp["row"]
             else:
                 right.append(tmp["row"])
+        print("len of left" + str(len(left)))
+        print("len of right" + str(len(right)))
         return left, right, A, B, mid, c
 
     def cluster(self, rows = None, min = None, cols = None, above = None):
