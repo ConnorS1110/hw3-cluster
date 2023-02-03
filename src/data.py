@@ -3,7 +3,7 @@ from row import ROW
 from cols import COLS
 import utility as util
 from collections.abc import Iterable
-import copy
+from copy import copy
 
 class DATA:
 
@@ -49,7 +49,7 @@ class DATA:
         Output:
             data - Clone of DATA object
         """
-        data = self
+        data = copy(self)
         if rows:
             data.rows = rows
         return data
