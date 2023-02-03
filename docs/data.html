@@ -103,6 +103,18 @@ class DATA:
         return test.kap(cols or self.cols.y, fun)
 
     def better(self, row1, row2):
+        &#34;&#34;&#34;
+        Function:
+            better
+        Description:
+            Determines if row1 dominates row2
+        Input:
+            self - current DATA instance
+            row1 - First row to compare
+            row2 - Second row to compare
+        Output:
+            True if row1 dominates row2
+        &#34;&#34;&#34;
         s1, s2, ys = 0, 0, self.cols.y
         for _, col in enumerate(ys):
             x = col.norm(row1.cells[col.at])
@@ -112,6 +124,19 @@ class DATA:
         return (s1 / len(ys)) &lt; (s2 / len(ys))
 
     def dist(self, row1, row2, cols = None):
+        &#34;&#34;&#34;
+        Function:
+            dist
+        Description:
+            Finds normalized distance between row1 and row2
+        Input:
+            self - current DATA instance
+            row1 - First row
+            row2 - Second row
+            cols - cols to use as the data for distance
+        Output:
+            Normalized distance between row1 and row2
+        &#34;&#34;&#34;
         n, d = 0, 0
         for col in (cols or self.cols.x):
             n += 1
@@ -119,6 +144,19 @@ class DATA:
         return (d / n) ** (1 / util.args.p)
 
     def around(self, row1, rows = None, cols = None):
+        &#34;&#34;&#34;
+        Function:
+            around
+        Description:
+            Sorts rows by distance to row1
+        Input:
+            self - current DATA instance
+            row1 - Central row to do sorting by distance around
+            rows - Rows to compare to distance from row1
+            cols - cols to use as the data for sorting by distance to row1
+        Output:
+            Sorted list of rows by their distance to row1
+        &#34;&#34;&#34;
         if isinstance(rows, Iterable):
             iterable = rows
         else:
@@ -130,6 +168,24 @@ class DATA:
         # return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})
 
     def half(self, rows = None, cols = None, above = None):
+        &#34;&#34;&#34;
+        Function:
+            half
+        Description:
+            Splits data in half
+        Input:
+            self - current DATA instance
+            rows - rows to split
+            cols - cols to split
+            above - previous point of split
+        Output:
+            left - list of rows to the left of split
+            right - list of rows to the right of split
+            A - far left point
+            B - far right point
+            mid - mid point where split occurs
+            c - Distance between A and B
+        &#34;&#34;&#34;
         A, B, left, right, c, mid, some = None, None, None, None, None, None, None
         def project(row):
             return {&#39;row&#39;: row, &#39;dist&#39;: util.cosine(dist(row, A), dist(row, B), c)[1]}
@@ -154,6 +210,20 @@ class DATA:
         return left, right, A, B, mid, c
 
     def cluster(self, rows = None, min = None, cols = None, above = None):
+        &#34;&#34;&#34;
+        Function:
+            cluster
+        Description:
+            Returns clustered rows by recursively splitting data
+        Input:
+            self - current DATA instance
+            rows - rows to cluster
+            cols - cols to cluster
+            min - Determines when to stop splitting
+            above - Previous point of split
+        Output:
+            Clustered rows
+        &#34;&#34;&#34;
         rows = rows if rows else self.rows
         min = min if min else len(rows) ** util.args.min
         cols = cols if cols else self.cols.x
@@ -169,6 +239,20 @@ class DATA:
         return node
 
     def sway(self, rows, min, cols, above):
+        &#34;&#34;&#34;
+        Function:
+            sway
+        Description:
+            Finds the best half of the data by recursion
+        Input:
+            self - current DATA instance
+            rows - rows to sway
+            cols - cols to sway
+            min - Determines when recursion stops
+            above - Previous point of split
+        Output:
+            Swayed rows
+        &#34;&#34;&#34;
         rows = rows if rows else self.rows
         min = min if min else len(rows) ** util.args.min
         cols = cols if cols else self.cols.x
@@ -272,6 +356,18 @@ class DATA:
         return test.kap(cols or self.cols.y, fun)
 
     def better(self, row1, row2):
+        &#34;&#34;&#34;
+        Function:
+            better
+        Description:
+            Determines if row1 dominates row2
+        Input:
+            self - current DATA instance
+            row1 - First row to compare
+            row2 - Second row to compare
+        Output:
+            True if row1 dominates row2
+        &#34;&#34;&#34;
         s1, s2, ys = 0, 0, self.cols.y
         for _, col in enumerate(ys):
             x = col.norm(row1.cells[col.at])
@@ -281,6 +377,19 @@ class DATA:
         return (s1 / len(ys)) &lt; (s2 / len(ys))
 
     def dist(self, row1, row2, cols = None):
+        &#34;&#34;&#34;
+        Function:
+            dist
+        Description:
+            Finds normalized distance between row1 and row2
+        Input:
+            self - current DATA instance
+            row1 - First row
+            row2 - Second row
+            cols - cols to use as the data for distance
+        Output:
+            Normalized distance between row1 and row2
+        &#34;&#34;&#34;
         n, d = 0, 0
         for col in (cols or self.cols.x):
             n += 1
@@ -288,6 +397,19 @@ class DATA:
         return (d / n) ** (1 / util.args.p)
 
     def around(self, row1, rows = None, cols = None):
+        &#34;&#34;&#34;
+        Function:
+            around
+        Description:
+            Sorts rows by distance to row1
+        Input:
+            self - current DATA instance
+            row1 - Central row to do sorting by distance around
+            rows - Rows to compare to distance from row1
+            cols - cols to use as the data for sorting by distance to row1
+        Output:
+            Sorted list of rows by their distance to row1
+        &#34;&#34;&#34;
         if isinstance(rows, Iterable):
             iterable = rows
         else:
@@ -299,6 +421,24 @@ class DATA:
         # return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})
 
     def half(self, rows = None, cols = None, above = None):
+        &#34;&#34;&#34;
+        Function:
+            half
+        Description:
+            Splits data in half
+        Input:
+            self - current DATA instance
+            rows - rows to split
+            cols - cols to split
+            above - previous point of split
+        Output:
+            left - list of rows to the left of split
+            right - list of rows to the right of split
+            A - far left point
+            B - far right point
+            mid - mid point where split occurs
+            c - Distance between A and B
+        &#34;&#34;&#34;
         A, B, left, right, c, mid, some = None, None, None, None, None, None, None
         def project(row):
             return {&#39;row&#39;: row, &#39;dist&#39;: util.cosine(dist(row, A), dist(row, B), c)[1]}
@@ -323,6 +463,20 @@ class DATA:
         return left, right, A, B, mid, c
 
     def cluster(self, rows = None, min = None, cols = None, above = None):
+        &#34;&#34;&#34;
+        Function:
+            cluster
+        Description:
+            Returns clustered rows by recursively splitting data
+        Input:
+            self - current DATA instance
+            rows - rows to cluster
+            cols - cols to cluster
+            min - Determines when to stop splitting
+            above - Previous point of split
+        Output:
+            Clustered rows
+        &#34;&#34;&#34;
         rows = rows if rows else self.rows
         min = min if min else len(rows) ** util.args.min
         cols = cols if cols else self.cols.x
@@ -338,6 +492,20 @@ class DATA:
         return node
 
     def sway(self, rows, min, cols, above):
+        &#34;&#34;&#34;
+        Function:
+            sway
+        Description:
+            Finds the best half of the data by recursion
+        Input:
+            self - current DATA instance
+            rows - rows to sway
+            cols - cols to sway
+            min - Determines when recursion stops
+            above - Previous point of split
+        Output:
+            Swayed rows
+        &#34;&#34;&#34;
         rows = rows if rows else self.rows
         min = min if min else len(rows) ** util.args.min
         cols = cols if cols else self.cols.x
@@ -394,12 +562,35 @@ t - data to be added</p>
 <span>def <span class="ident">around</span></span>(<span>self, row1, rows=None, cols=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>around</p>
+<h2 id="description">Description</h2>
+<p>Sorts rows by distance to row1</p>
+<h2 id="input">Input</h2>
+<p>self - current DATA instance
+row1 - Central row to do sorting by distance around
+rows - Rows to compare to distance from row1
+cols - cols to use as the data for sorting by distance to row1</p>
+<h2 id="output">Output</h2>
+<p>Sorted list of rows by their distance to row1</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def around(self, row1, rows = None, cols = None):
+    &#34;&#34;&#34;
+    Function:
+        around
+    Description:
+        Sorts rows by distance to row1
+    Input:
+        self - current DATA instance
+        row1 - Central row to do sorting by distance around
+        rows - Rows to compare to distance from row1
+        cols - cols to use as the data for sorting by distance to row1
+    Output:
+        Sorted list of rows by their distance to row1
+    &#34;&#34;&#34;
     if isinstance(rows, Iterable):
         iterable = rows
     else:
@@ -415,12 +606,33 @@ t - data to be added</p>
 <span>def <span class="ident">better</span></span>(<span>self, row1, row2)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>better</p>
+<h2 id="description">Description</h2>
+<p>Determines if row1 dominates row2</p>
+<h2 id="input">Input</h2>
+<p>self - current DATA instance
+row1 - First row to compare
+row2 - Second row to compare</p>
+<h2 id="output">Output</h2>
+<p>True if row1 dominates row2</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def better(self, row1, row2):
+    &#34;&#34;&#34;
+    Function:
+        better
+    Description:
+        Determines if row1 dominates row2
+    Input:
+        self - current DATA instance
+        row1 - First row to compare
+        row2 - Second row to compare
+    Output:
+        True if row1 dominates row2
+    &#34;&#34;&#34;
     s1, s2, ys = 0, 0, self.cols.y
     for _, col in enumerate(ys):
         x = col.norm(row1.cells[col.at])
@@ -471,12 +683,37 @@ x - data to be cloned</p>
 <span>def <span class="ident">cluster</span></span>(<span>self, rows=None, min=None, cols=None, above=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>cluster</p>
+<h2 id="description">Description</h2>
+<p>Returns clustered rows by recursively splitting data</p>
+<h2 id="input">Input</h2>
+<p>self - current DATA instance
+rows - rows to cluster
+cols - cols to cluster
+min - Determines when to stop splitting
+above - Previous point of split</p>
+<h2 id="output">Output</h2>
+<p>Clustered rows</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def cluster(self, rows = None, min = None, cols = None, above = None):
+    &#34;&#34;&#34;
+    Function:
+        cluster
+    Description:
+        Returns clustered rows by recursively splitting data
+    Input:
+        self - current DATA instance
+        rows - rows to cluster
+        cols - cols to cluster
+        min - Determines when to stop splitting
+        above - Previous point of split
+    Output:
+        Clustered rows
+    &#34;&#34;&#34;
     rows = rows if rows else self.rows
     min = min if min else len(rows) ** util.args.min
     cols = cols if cols else self.cols.x
@@ -496,12 +733,35 @@ x - data to be cloned</p>
 <span>def <span class="ident">dist</span></span>(<span>self, row1, row2, cols=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>dist</p>
+<h2 id="description">Description</h2>
+<p>Finds normalized distance between row1 and row2</p>
+<h2 id="input">Input</h2>
+<p>self - current DATA instance
+row1 - First row
+row2 - Second row
+cols - cols to use as the data for distance</p>
+<h2 id="output">Output</h2>
+<p>Normalized distance between row1 and row2</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def dist(self, row1, row2, cols = None):
+    &#34;&#34;&#34;
+    Function:
+        dist
+    Description:
+        Finds normalized distance between row1 and row2
+    Input:
+        self - current DATA instance
+        row1 - First row
+        row2 - Second row
+        cols - cols to use as the data for distance
+    Output:
+        Normalized distance between row1 and row2
+    &#34;&#34;&#34;
     n, d = 0, 0
     for col in (cols or self.cols.x):
         n += 1
@@ -513,12 +773,45 @@ x - data to be cloned</p>
 <span>def <span class="ident">half</span></span>(<span>self, rows=None, cols=None, above=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>half</p>
+<h2 id="description">Description</h2>
+<p>Splits data in half</p>
+<h2 id="input">Input</h2>
+<p>self - current DATA instance
+rows - rows to split
+cols - cols to split
+above - previous point of split</p>
+<h2 id="output">Output</h2>
+<p>left - list of rows to the left of split
+right - list of rows to the right of split
+A - far left point
+B - far right point
+mid - mid point where split occurs
+c - Distance between A and B</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def half(self, rows = None, cols = None, above = None):
+    &#34;&#34;&#34;
+    Function:
+        half
+    Description:
+        Splits data in half
+    Input:
+        self - current DATA instance
+        rows - rows to split
+        cols - cols to split
+        above - previous point of split
+    Output:
+        left - list of rows to the left of split
+        right - list of rows to the right of split
+        A - far left point
+        B - far right point
+        mid - mid point where split occurs
+        c - Distance between A and B
+    &#34;&#34;&#34;
     A, B, left, right, c, mid, some = None, None, None, None, None, None, None
     def project(row):
         return {&#39;row&#39;: row, &#39;dist&#39;: util.cosine(dist(row, A), dist(row, B), c)[1]}
@@ -587,12 +880,37 @@ nPlaces - # of decimal places stat is rounded to</p>
 <span>def <span class="ident">sway</span></span>(<span>self, rows, min, cols, above)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>sway</p>
+<h2 id="description">Description</h2>
+<p>Finds the best half of the data by recursion</p>
+<h2 id="input">Input</h2>
+<p>self - current DATA instance
+rows - rows to sway
+cols - cols to sway
+min - Determines when recursion stops
+above - Previous point of split</p>
+<h2 id="output">Output</h2>
+<p>Swayed rows</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def sway(self, rows, min, cols, above):
+    &#34;&#34;&#34;
+    Function:
+        sway
+    Description:
+        Finds the best half of the data by recursion
+    Input:
+        self - current DATA instance
+        rows - rows to sway
+        cols - cols to sway
+        min - Determines when recursion stops
+        above - Previous point of split
+    Output:
+        Swayed rows
+    &#34;&#34;&#34;
     rows = rows if rows else self.rows
     min = min if min else len(rows) ** util.args.min
     cols = cols if cols else self.cols.x

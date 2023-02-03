@@ -62,6 +62,20 @@ n = 0
 
 
 def show(node, what, cols, nPlaces, lvl=None):
+    &#34;&#34;&#34;
+    Function:
+        show
+    Description:
+        Displays optimization of data as a tree
+    Input:
+        node - data
+        what - stat to display
+        cols - data columns
+        nPlaces - # of decimal places to display stats
+        lvl - how deep the tree is
+    Output:
+        None
+    &#34;&#34;&#34;
     if node:
         lvl = lvl or 0
         print(&#34;| &#34; * lvl + str(len(node[&#34;data&#34;].rows)) + &#34; &#34;, end=&#34;&#34;)
@@ -73,6 +87,17 @@ def show(node, what, cols, nPlaces, lvl=None):
         show(node.get(&#34;right&#34;, None), what,cols,nPlaces, lvl+1)
 
 def rint(lo = None, hi = None):
+    &#34;&#34;&#34;
+    Function:
+        rint
+    Description:
+        Makes a random number
+    Input:
+        low - low value
+        high - high value
+    Output:
+        Random number
+    &#34;&#34;&#34;
     return math.floor(0.5 + rand(lo, hi))
 
 def eg(key, string, fun):
@@ -132,6 +157,19 @@ def rand(low, high):
     return low + (high - low) * Seed / 2147483647
 
 def cosine(a, b, c):
+    &#34;&#34;&#34;
+    Function:
+        cosine
+    Description:
+        Finds x, y of line between a &amp; b
+    Input:
+        a - First point
+        b - Second point
+        c - distance between a &amp; b
+    Output:
+        x2 - x of line between a &amp; b
+        y - y of line between a &amp; b
+    &#34;&#34;&#34;
     x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
     y = (a ** 2 - x2 ** 2) ** 0.5
@@ -139,19 +177,40 @@ def cosine(a, b, c):
 
 
 def many(t, n):
+    &#34;&#34;&#34;
+    Function:
+        many
+    Description:
+        Creates a list of random rows
+    Input:
+        t - DATA object
+        n - Number of row samples
+    Output:
+        u - list of random n rows from t
+    &#34;&#34;&#34;
     u = []
     for i in range(1, n + 1):
         u.append(any(t))
     return u
 
 def any(t):
+    &#34;&#34;&#34;
+    Function:
+        any
+    Description:
+        Selects a random row
+    Input:
+        t - DATA object
+    Output:
+        Random row from t
+    &#34;&#34;&#34;
     rintVal = rint(None, len(t) - 1)
     return t[rintVal]
 
-def lt(x):
-    def fun(a, b):
-        return a[x] &lt; b[x]
-    return fun
+# def lt(x):
+#     def fun(a, b):
+#         return a[x] &lt; b[x]
+#     return fun
 
 def randFunc():
     &#34;&#34;&#34;
@@ -342,6 +401,16 @@ def statsFunc():
         print(&#34;&#34;, &#34;\tdiv&#34;, (data.stats(&#34;div&#34;, cols, 2)))
 
 def cloneFunc():
+    &#34;&#34;&#34;
+    Function:
+        cloneFunc
+    Description:
+        Callback function to test clone function in DATA class
+    Input:
+        None
+    Output:
+        the cloned DATA object contains the same metadata as the original object
+    &#34;&#34;&#34;
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data1 = DATA(full_path)
@@ -352,12 +421,32 @@ def cloneFunc():
             len(data1.cols.x) == len(data2.cols.x))
 
 def clusterFunc():
+    &#34;&#34;&#34;
+    Function:
+        clusterFunc
+    Description:
+        Callback function to test cluster function in DATA class
+    Input:
+        None
+    Output:
+        the correct data is output from the cluster function
+    &#34;&#34;&#34;
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
     show(data.cluster(), &#34;mid&#34;, data.cols.y, 1)
 
 def aroundFunc():
+    &#34;&#34;&#34;
+    Function:
+        aroundFunc
+    Description:
+        Callback function to test around function in DATA class
+    Input:
+        None
+    Output:
+        the rows are correctly sorted for the DATA object
+    &#34;&#34;&#34;
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
@@ -366,6 +455,16 @@ def aroundFunc():
             print(n, round(t[1], 2), t[0].cells)
 
 def halfFunc():
+    &#34;&#34;&#34;
+    Function:
+        halfFunc
+    Description:
+        Callback function to test half function in DATA class
+    Input:
+        None
+    Output:
+        the DATA object is correctly split in half
+    &#34;&#34;&#34;
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
@@ -387,12 +486,29 @@ def halfFunc():
 <span>def <span class="ident">any</span></span>(<span>t)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>any</p>
+<h2 id="description">Description</h2>
+<p>Selects a random row</p>
+<h2 id="input">Input</h2>
+<p>t - DATA object</p>
+<h2 id="output">Output</h2>
+<p>Random row from t</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def any(t):
+    &#34;&#34;&#34;
+    Function:
+        any
+    Description:
+        Selects a random row
+    Input:
+        t - DATA object
+    Output:
+        Random row from t
+    &#34;&#34;&#34;
     rintVal = rint(None, len(t) - 1)
     return t[rintVal]</code></pre>
 </details>
@@ -401,12 +517,29 @@ def halfFunc():
 <span>def <span class="ident">aroundFunc</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>aroundFunc</p>
+<h2 id="description">Description</h2>
+<p>Callback function to test around function in DATA class</p>
+<h2 id="input">Input</h2>
+<p>None</p>
+<h2 id="output">Output</h2>
+<p>the rows are correctly sorted for the DATA object</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def aroundFunc():
+    &#34;&#34;&#34;
+    Function:
+        aroundFunc
+    Description:
+        Callback function to test around function in DATA class
+    Input:
+        None
+    Output:
+        the rows are correctly sorted for the DATA object
+    &#34;&#34;&#34;
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
@@ -419,12 +552,29 @@ def halfFunc():
 <span>def <span class="ident">cloneFunc</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>cloneFunc</p>
+<h2 id="description">Description</h2>
+<p>Callback function to test clone function in DATA class</p>
+<h2 id="input">Input</h2>
+<p>None</p>
+<h2 id="output">Output</h2>
+<p>the cloned DATA object contains the same metadata as the original object</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def cloneFunc():
+    &#34;&#34;&#34;
+    Function:
+        cloneFunc
+    Description:
+        Callback function to test clone function in DATA class
+    Input:
+        None
+    Output:
+        the cloned DATA object contains the same metadata as the original object
+    &#34;&#34;&#34;
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data1 = DATA(full_path)
@@ -439,12 +589,29 @@ def halfFunc():
 <span>def <span class="ident">clusterFunc</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>clusterFunc</p>
+<h2 id="description">Description</h2>
+<p>Callback function to test cluster function in DATA class</p>
+<h2 id="input">Input</h2>
+<p>None</p>
+<h2 id="output">Output</h2>
+<p>the correct data is output from the cluster function</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def clusterFunc():
+    &#34;&#34;&#34;
+    Function:
+        clusterFunc
+    Description:
+        Callback function to test cluster function in DATA class
+    Input:
+        None
+    Output:
+        the correct data is output from the cluster function
+    &#34;&#34;&#34;
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
@@ -455,12 +622,35 @@ def halfFunc():
 <span>def <span class="ident">cosine</span></span>(<span>a, b, c)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>cosine</p>
+<h2 id="description">Description</h2>
+<p>Finds x, y of line between a &amp; b</p>
+<h2 id="input">Input</h2>
+<p>a - First point
+b - Second point
+c - distance between a &amp; b</p>
+<h2 id="output">Output</h2>
+<p>x2 - x of line between a &amp; b
+y - y of line between a &amp; b</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def cosine(a, b, c):
+    &#34;&#34;&#34;
+    Function:
+        cosine
+    Description:
+        Finds x, y of line between a &amp; b
+    Input:
+        a - First point
+        b - Second point
+        c - distance between a &amp; b
+    Output:
+        x2 - x of line between a &amp; b
+        y - y of line between a &amp; b
+    &#34;&#34;&#34;
     x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
     y = (a ** 2 - x2 ** 2) ** 0.5
@@ -655,12 +845,29 @@ fun - callback function to use for test case</p>
 <span>def <span class="ident">halfFunc</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>halfFunc</p>
+<h2 id="description">Description</h2>
+<p>Callback function to test half function in DATA class</p>
+<h2 id="input">Input</h2>
+<p>None</p>
+<h2 id="output">Output</h2>
+<p>the DATA object is correctly split in half</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def halfFunc():
+    &#34;&#34;&#34;
+    Function:
+        halfFunc
+    Description:
+        Callback function to test half function in DATA class
+    Input:
+        None
+    Output:
+        the DATA object is correctly split in half
+    &#34;&#34;&#34;
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
@@ -707,31 +914,35 @@ fun - anonymous function to be used as value in map</p>
     return u</code></pre>
 </details>
 </dd>
-<dt id="src.utility.lt"><code class="name flex">
-<span>def <span class="ident">lt</span></span>(<span>x)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def lt(x):
-    def fun(a, b):
-        return a[x] &lt; b[x]
-    return fun</code></pre>
-</details>
-</dd>
 <dt id="src.utility.many"><code class="name flex">
 <span>def <span class="ident">many</span></span>(<span>t, n)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>many</p>
+<h2 id="description">Description</h2>
+<p>Creates a list of random rows</p>
+<h2 id="input">Input</h2>
+<p>t - DATA object
+n - Number of row samples</p>
+<h2 id="output">Output</h2>
+<p>u - list of random n rows from t</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def many(t, n):
+    &#34;&#34;&#34;
+    Function:
+        many
+    Description:
+        Creates a list of random rows
+    Input:
+        t - DATA object
+        n - Number of row samples
+    Output:
+        u - list of random n rows from t
+    &#34;&#34;&#34;
     u = []
     for i in range(1, n + 1):
         u.append(any(t))
@@ -934,12 +1145,31 @@ fun - callback function to be called for each line in the CSV</p>
 <span>def <span class="ident">rint</span></span>(<span>lo=None, hi=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>rint</p>
+<h2 id="description">Description</h2>
+<p>Makes a random number</p>
+<h2 id="input">Input</h2>
+<p>low - low value
+high - high value</p>
+<h2 id="output">Output</h2>
+<p>Random number</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def rint(lo = None, hi = None):
+    &#34;&#34;&#34;
+    Function:
+        rint
+    Description:
+        Makes a random number
+    Input:
+        low - low value
+        high - high value
+    Output:
+        Random number
+    &#34;&#34;&#34;
     return math.floor(0.5 + rand(lo, hi))</code></pre>
 </details>
 </dd>
@@ -947,12 +1177,37 @@ fun - callback function to be called for each line in the CSV</p>
 <span>def <span class="ident">show</span></span>(<span>node, what, cols, nPlaces, lvl=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="function">Function</h2>
+<p>show</p>
+<h2 id="description">Description</h2>
+<p>Displays optimization of data as a tree</p>
+<h2 id="input">Input</h2>
+<p>node - data
+what - stat to display
+cols - data columns
+nPlaces - # of decimal places to display stats
+lvl - how deep the tree is</p>
+<h2 id="output">Output</h2>
+<p>None</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def show(node, what, cols, nPlaces, lvl=None):
+    &#34;&#34;&#34;
+    Function:
+        show
+    Description:
+        Displays optimization of data as a tree
+    Input:
+        node - data
+        what - stat to display
+        cols - data columns
+        nPlaces - # of decimal places to display stats
+        lvl - how deep the tree is
+    Output:
+        None
+    &#34;&#34;&#34;
     if node:
         lvl = lvl or 0
         print(&#34;| &#34; * lvl + str(len(node[&#34;data&#34;].rows)) + &#34; &#34;, end=&#34;&#34;)
@@ -1062,7 +1317,6 @@ fun - callback function to be called for each line in the CSV</p>
 <li><code><a title="src.utility.getCliArgs" href="#src.utility.getCliArgs">getCliArgs</a></code></li>
 <li><code><a title="src.utility.halfFunc" href="#src.utility.halfFunc">halfFunc</a></code></li>
 <li><code><a title="src.utility.kap" href="#src.utility.kap">kap</a></code></li>
-<li><code><a title="src.utility.lt" href="#src.utility.lt">lt</a></code></li>
 <li><code><a title="src.utility.many" href="#src.utility.many">many</a></code></li>
 <li><code><a title="src.utility.numFunc" href="#src.utility.numFunc">numFunc</a></code></li>
 <li><code><a title="src.utility.oo" href="#src.utility.oo">oo</a></code></li>
