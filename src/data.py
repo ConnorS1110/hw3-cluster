@@ -1,3 +1,4 @@
+import math
 import testfile as test
 from row import ROW
 from cols import COLS
@@ -91,8 +92,11 @@ class DATA:
         for _, col in enumerate(ys):
             x = col.norm(row1.cells[col.at])
             y = col.norm(row2.cells[col.at])
-            s1 -= col.w ** ((x - y) / len(ys))
-            s2 -= col.w ** ((y - x) / len(ys))
+            s1 -= math.exp(col.w * (((x - y)) / len(ys)))
+            s2 -= math.exp(col.w * ((y - x) / len(ys)))
+        # print("Value of s1: " + str(s1) + " Type of s1: " + str(type(s1)))
+        # print("Value of s2: " + str(s2) + " Type of s2: " + str(type(s2)))
+        # print("Value of len(ys): " + str(len(ys)) + " Type of len(ys): " + str(type(len(ys))))
         return (s1 / len(ys)) < (s2 / len(ys))
 
     def dist(self, row1, row2, cols = None):
@@ -137,7 +141,6 @@ class DATA:
         rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in iterable]
         sorted_rows = sorted(rows_with_distance, key=lambda x: x[1])
         return [(row, dist) for row, dist in sorted_rows]
-        # return sorted(rows, key=lambda row2: {'row': row2, 'dist': self.dist(row1, row2, cols)})
 
     def half(self, rows = None, cols = None, above = None):
         """
@@ -172,7 +175,7 @@ class DATA:
         mapVAR = [project(row) for row in rows]
         sorted_rows = sorted(mapVAR, key=lambda x: x["dist"])
         for n, tmp in enumerate(sorted_rows):
-            if n <= len(rows) // 2:
+            if n <= len(rows) // 2 - 1:
                 left.append(tmp["row"])
                 mid = tmp["row"]
             else:
@@ -210,7 +213,7 @@ class DATA:
             node["right"] = self.cluster(right, min, cols, node["B"])
         return node
 
-    def sway(self, rows, min, cols, above):
+    def sway(self, rows = None, min = None, cols = None, above = None):
         """
         Function:
             sway
@@ -231,7 +234,7 @@ class DATA:
         node = {"data": self.clone(rows)}
 
         if len(rows) > 2 * min:
-           left, right, node["A"], node["B"], node["mid"] = self.half(rows, cols, above)
+           left, right, node["A"], node["B"], node["mid"], _ = self.half(rows, cols, above)
            if self.better(node["B"], node["A"]):
                left, right, node["A"], node["B"] = right, left, node["B"], node["A"]
            node["left"] = self.sway(left,  min, cols, node["A"])

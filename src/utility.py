@@ -144,7 +144,7 @@ def cosine(a, b, c):
     """
     x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
-    y = (a ** 2 - x2 ** 2) ** 0.5
+    y = (abs(a ** 2 - x2 ** 2)) ** 0.5
     return x2, y
 
 
@@ -407,6 +407,22 @@ def clusterFunc():
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
     show(data.cluster(), "mid", data.cols.y, 1)
+
+def swayFunc():
+    """
+    Function:
+        swayFunc
+    Description:
+        Callback function to test sway function in DATA class
+    Input:
+        None
+    Output:
+        the correct data is output from the sway function
+    """
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    show(data.sway(), "mid", data.cols.y, 1)
 
 def aroundFunc():
     """

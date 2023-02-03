@@ -373,14 +373,14 @@ function eg(key,str, fun) --> nil; register an example.
 --   print(o(mid.cells))
 --   print(o(B.cells)) end)
 
-eg("cluster", "N-level bi-clustering", function(     data)
-  data=DATA(the.file)
-  show(data:cluster(),"mid",data.cols.y,1)
-  end)
-
--- eg("optimize", "semi-supervised optimization", function(     data)
+-- eg("cluster", "N-level bi-clustering", function(     data)
 --   data=DATA(the.file)
---   show(data:sway(),"mid",data.cols.y,1)
+--   show(data:cluster(),"mid",data.cols.y,1)
 --   end)
+
+eg("optimize", "semi-supervised optimization", function(     data)
+  data=DATA(the.file)
+  show(data:sway(),"mid",data.cols.y,1)
+  end)
 
 main(the,help,egs)
