@@ -26,7 +26,8 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import testfile as test
+<pre><code class="python">import math
+import testfile as test
 from row import ROW
 from cols import COLS
 import utility as util
@@ -119,8 +120,11 @@ class DATA:
         for _, col in enumerate(ys):
             x = col.norm(row1.cells[col.at])
             y = col.norm(row2.cells[col.at])
-            s1 -= col.w ** ((x - y) / len(ys))
-            s2 -= col.w ** ((y - x) / len(ys))
+            s1 -= math.exp(col.w * (((x - y)) / len(ys)))
+            s2 -= math.exp(col.w * ((y - x) / len(ys)))
+        # print(&#34;Value of s1: &#34; + str(s1) + &#34; Type of s1: &#34; + str(type(s1)))
+        # print(&#34;Value of s2: &#34; + str(s2) + &#34; Type of s2: &#34; + str(type(s2)))
+        # print(&#34;Value of len(ys): &#34; + str(len(ys)) + &#34; Type of len(ys): &#34; + str(type(len(ys))))
         return (s1 / len(ys)) &lt; (s2 / len(ys))
 
     def dist(self, row1, row2, cols = None):
@@ -165,7 +169,6 @@ class DATA:
         rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in iterable]
         sorted_rows = sorted(rows_with_distance, key=lambda x: x[1])
         return [(row, dist) for row, dist in sorted_rows]
-        # return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})
 
     def half(self, rows = None, cols = None, above = None):
         &#34;&#34;&#34;
@@ -200,7 +203,7 @@ class DATA:
         mapVAR = [project(row) for row in rows]
         sorted_rows = sorted(mapVAR, key=lambda x: x[&#34;dist&#34;])
         for n, tmp in enumerate(sorted_rows):
-            if n &lt;= len(rows) // 2:
+            if n &lt;= len(rows) // 2 - 1:
                 left.append(tmp[&#34;row&#34;])
                 mid = tmp[&#34;row&#34;]
             else:
@@ -238,7 +241,7 @@ class DATA:
             node[&#34;right&#34;] = self.cluster(right, min, cols, node[&#34;B&#34;])
         return node
 
-    def sway(self, rows, min, cols, above):
+    def sway(self, rows = None, min = None, cols = None, above = None):
         &#34;&#34;&#34;
         Function:
             sway
@@ -259,7 +262,7 @@ class DATA:
         node = {&#34;data&#34;: self.clone(rows)}
 
         if len(rows) &gt; 2 * min:
-           left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+           left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;], _ = self.half(rows, cols, above)
            if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):
                left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
            node[&#34;left&#34;] = self.sway(left,  min, cols, node[&#34;A&#34;])
@@ -372,8 +375,11 @@ class DATA:
         for _, col in enumerate(ys):
             x = col.norm(row1.cells[col.at])
             y = col.norm(row2.cells[col.at])
-            s1 -= col.w ** ((x - y) / len(ys))
-            s2 -= col.w ** ((y - x) / len(ys))
+            s1 -= math.exp(col.w * (((x - y)) / len(ys)))
+            s2 -= math.exp(col.w * ((y - x) / len(ys)))
+        # print(&#34;Value of s1: &#34; + str(s1) + &#34; Type of s1: &#34; + str(type(s1)))
+        # print(&#34;Value of s2: &#34; + str(s2) + &#34; Type of s2: &#34; + str(type(s2)))
+        # print(&#34;Value of len(ys): &#34; + str(len(ys)) + &#34; Type of len(ys): &#34; + str(type(len(ys))))
         return (s1 / len(ys)) &lt; (s2 / len(ys))
 
     def dist(self, row1, row2, cols = None):
@@ -418,7 +424,6 @@ class DATA:
         rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in iterable]
         sorted_rows = sorted(rows_with_distance, key=lambda x: x[1])
         return [(row, dist) for row, dist in sorted_rows]
-        # return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})
 
     def half(self, rows = None, cols = None, above = None):
         &#34;&#34;&#34;
@@ -453,7 +458,7 @@ class DATA:
         mapVAR = [project(row) for row in rows]
         sorted_rows = sorted(mapVAR, key=lambda x: x[&#34;dist&#34;])
         for n, tmp in enumerate(sorted_rows):
-            if n &lt;= len(rows) // 2:
+            if n &lt;= len(rows) // 2 - 1:
                 left.append(tmp[&#34;row&#34;])
                 mid = tmp[&#34;row&#34;]
             else:
@@ -491,7 +496,7 @@ class DATA:
             node[&#34;right&#34;] = self.cluster(right, min, cols, node[&#34;B&#34;])
         return node
 
-    def sway(self, rows, min, cols, above):
+    def sway(self, rows = None, min = None, cols = None, above = None):
         &#34;&#34;&#34;
         Function:
             sway
@@ -512,7 +517,7 @@ class DATA:
         node = {&#34;data&#34;: self.clone(rows)}
 
         if len(rows) &gt; 2 * min:
-           left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+           left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;], _ = self.half(rows, cols, above)
            if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):
                left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
            node[&#34;left&#34;] = self.sway(left,  min, cols, node[&#34;A&#34;])
@@ -598,8 +603,7 @@ cols - cols to use as the data for sorting by distance to row1</p>
 
     rows_with_distance = [(row2, self.dist(row1, row2, cols)) for row2 in iterable]
     sorted_rows = sorted(rows_with_distance, key=lambda x: x[1])
-    return [(row, dist) for row, dist in sorted_rows]
-    # return sorted(rows, key=lambda row2: {&#39;row&#39;: row2, &#39;dist&#39;: self.dist(row1, row2, cols)})</code></pre>
+    return [(row, dist) for row, dist in sorted_rows]</code></pre>
 </details>
 </dd>
 <dt id="src.data.DATA.better"><code class="name flex">
@@ -637,8 +641,11 @@ row2 - Second row to compare</p>
     for _, col in enumerate(ys):
         x = col.norm(row1.cells[col.at])
         y = col.norm(row2.cells[col.at])
-        s1 -= col.w ** ((x - y) / len(ys))
-        s2 -= col.w ** ((y - x) / len(ys))
+        s1 -= math.exp(col.w * (((x - y)) / len(ys)))
+        s2 -= math.exp(col.w * ((y - x) / len(ys)))
+    # print(&#34;Value of s1: &#34; + str(s1) + &#34; Type of s1: &#34; + str(type(s1)))
+    # print(&#34;Value of s2: &#34; + str(s2) + &#34; Type of s2: &#34; + str(type(s2)))
+    # print(&#34;Value of len(ys): &#34; + str(len(ys)) + &#34; Type of len(ys): &#34; + str(type(len(ys))))
     return (s1 / len(ys)) &lt; (s2 / len(ys))</code></pre>
 </details>
 </dd>
@@ -826,7 +833,7 @@ c - Distance between A and B</p></div>
     mapVAR = [project(row) for row in rows]
     sorted_rows = sorted(mapVAR, key=lambda x: x[&#34;dist&#34;])
     for n, tmp in enumerate(sorted_rows):
-        if n &lt;= len(rows) // 2:
+        if n &lt;= len(rows) // 2 - 1:
             left.append(tmp[&#34;row&#34;])
             mid = tmp[&#34;row&#34;]
         else:
@@ -877,7 +884,7 @@ nPlaces - # of decimal places stat is rounded to</p>
 </details>
 </dd>
 <dt id="src.data.DATA.sway"><code class="name flex">
-<span>def <span class="ident">sway</span></span>(<span>self, rows, min, cols, above)</span>
+<span>def <span class="ident">sway</span></span>(<span>self, rows=None, min=None, cols=None, above=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><h2 id="function">Function</h2>
@@ -896,7 +903,7 @@ above - Previous point of split</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def sway(self, rows, min, cols, above):
+<pre><code class="python">def sway(self, rows = None, min = None, cols = None, above = None):
     &#34;&#34;&#34;
     Function:
         sway
@@ -917,7 +924,7 @@ above - Previous point of split</p>
     node = {&#34;data&#34;: self.clone(rows)}
 
     if len(rows) &gt; 2 * min:
-       left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;] = self.half(rows, cols, above)
+       left, right, node[&#34;A&#34;], node[&#34;B&#34;], node[&#34;mid&#34;], _ = self.half(rows, cols, above)
        if self.better(node[&#34;B&#34;], node[&#34;A&#34;]):
            left, right, node[&#34;A&#34;], node[&#34;B&#34;] = right, left, node[&#34;B&#34;], node[&#34;A&#34;]
        node[&#34;left&#34;] = self.sway(left,  min, cols, node[&#34;A&#34;])
