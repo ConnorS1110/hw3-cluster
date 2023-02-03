@@ -34,6 +34,20 @@ n = 0
 
 
 def show(node, what, cols, nPlaces, lvl=None):
+    """
+    Function:
+        show
+    Description:
+        Displays optimization of data as a tree
+    Input:
+        node - data
+        what - stat to display
+        cols - data columns
+        nPlaces - # of decimal places to display stats
+        lvl - how deep the tree is
+    Output:
+        None
+    """
     if node:
         lvl = lvl or 0
         print("| " * lvl + str(len(node["data"].rows)) + " ", end="")
@@ -45,6 +59,17 @@ def show(node, what, cols, nPlaces, lvl=None):
         show(node.get("right", None), what,cols,nPlaces, lvl+1)
 
 def rint(lo = None, hi = None):
+    """
+    Function:
+        rint
+    Description:
+        Makes a random number
+    Input:
+        low - low value
+        high - high value
+    Output:
+        Random number
+    """
     return math.floor(0.5 + rand(lo, hi))
 
 def eg(key, string, fun):
@@ -104,6 +129,19 @@ def rand(low, high):
     return low + (high - low) * Seed / 2147483647
 
 def cosine(a, b, c):
+    """
+    Function:
+        cosine
+    Description:
+        Finds x, y of line between a & b
+    Input:
+        a - First point
+        b - Second point
+        c - distance between a & b
+    Output:
+        x2 - x of line between a & b
+        y - y of line between a & b
+    """
     x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
     y = (a ** 2 - x2 ** 2) ** 0.5
@@ -111,19 +149,40 @@ def cosine(a, b, c):
 
 
 def many(t, n):
+    """
+    Function:
+        many
+    Description:
+        Creates a list of random rows
+    Input:
+        t - DATA object
+        n - Number of row samples
+    Output:
+        u - list of random n rows from t
+    """
     u = []
     for i in range(1, n + 1):
         u.append(any(t))
     return u
 
 def any(t):
+    """
+    Function:
+        any
+    Description:
+        Selects a random row
+    Input:
+        t - DATA object
+    Output:
+        Random row from t
+    """
     rintVal = rint(None, len(t) - 1)
     return t[rintVal]
 
-def lt(x):
-    def fun(a, b):
-        return a[x] < b[x]
-    return fun
+# def lt(x):
+#     def fun(a, b):
+#         return a[x] < b[x]
+#     return fun
 
 def randFunc():
     """
@@ -314,6 +373,16 @@ def statsFunc():
         print("", "\tdiv", (data.stats("div", cols, 2)))
 
 def cloneFunc():
+    """
+    Function:
+        cloneFunc
+    Description:
+        Callback function to test clone function in DATA class
+    Input:
+        None
+    Output:
+        the cloned DATA object contains the same metadata as the original object
+    """
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data1 = DATA(full_path)
@@ -324,12 +393,32 @@ def cloneFunc():
             len(data1.cols.x) == len(data2.cols.x))
 
 def clusterFunc():
+    """
+    Function:
+        clusterFunc
+    Description:
+        Callback function to test cluster function in DATA class
+    Input:
+        None
+    Output:
+        the correct data is output from the cluster function
+    """
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
     show(data.cluster(), "mid", data.cols.y, 1)
 
 def aroundFunc():
+    """
+    Function:
+        aroundFunc
+    Description:
+        Callback function to test around function in DATA class
+    Input:
+        None
+    Output:
+        the rows are correctly sorted for the DATA object
+    """
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
@@ -338,6 +427,16 @@ def aroundFunc():
             print(n, round(t[1], 2), t[0].cells)
 
 def halfFunc():
+    """
+    Function:
+        halfFunc
+    Description:
+        Callback function to test half function in DATA class
+    Input:
+        None
+    Output:
+        the DATA object is correctly split in half
+    """
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data = DATA(full_path)
