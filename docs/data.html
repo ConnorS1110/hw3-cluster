@@ -44,7 +44,8 @@ class DATA:
         if type(src) == str:
             test.readCSV(src, fun)
         else:
-            map(fun, src or {})
+            for row in src:
+                self.add(row)
 
     def add(self, t):
         &#34;&#34;&#34;
@@ -59,7 +60,7 @@ class DATA:
             None
         &#34;&#34;&#34;
         if self.cols:
-            t = t.cells if hasattr(t, &#34;cells&#34;) else ROW(t)
+            t = t if hasattr(t, &#34;cells&#34;) else ROW(t)
             self.rows.append(t)
             self.cols.add(t)
         else:
@@ -78,9 +79,9 @@ class DATA:
         Output:
             data - Clone of DATA object
         &#34;&#34;&#34;
-        data = copy(self)
-        if rows:
-            data.rows = rows
+        data = DATA([self.cols.names])
+        for row in rows:
+            data.add(row)
         return data
 
     def stats(self, what, cols, nPlaces, fun=None):
@@ -208,8 +209,6 @@ class DATA:
                 mid = tmp[&#34;row&#34;]
             else:
                 right.append(tmp[&#34;row&#34;])
-        # print(&#34;len of left&#34; + str(len(left)))
-        # print(&#34;len of right&#34; + str(len(right)))
         return left, right, A, B, mid, c
 
     def cluster(self, rows = None, min = None, cols = None, above = None):
@@ -299,7 +298,8 @@ class DATA:
         if type(src) == str:
             test.readCSV(src, fun)
         else:
-            map(fun, src or {})
+            for row in src:
+                self.add(row)
 
     def add(self, t):
         &#34;&#34;&#34;
@@ -314,7 +314,7 @@ class DATA:
             None
         &#34;&#34;&#34;
         if self.cols:
-            t = t.cells if hasattr(t, &#34;cells&#34;) else ROW(t)
+            t = t if hasattr(t, &#34;cells&#34;) else ROW(t)
             self.rows.append(t)
             self.cols.add(t)
         else:
@@ -333,9 +333,9 @@ class DATA:
         Output:
             data - Clone of DATA object
         &#34;&#34;&#34;
-        data = copy(self)
-        if rows:
-            data.rows = rows
+        data = DATA([self.cols.names])
+        for row in rows:
+            data.add(row)
         return data
 
     def stats(self, what, cols, nPlaces, fun=None):
@@ -463,8 +463,6 @@ class DATA:
                 mid = tmp[&#34;row&#34;]
             else:
                 right.append(tmp[&#34;row&#34;])
-        # print(&#34;len of left&#34; + str(len(left)))
-        # print(&#34;len of right&#34; + str(len(right)))
         return left, right, A, B, mid, c
 
     def cluster(self, rows = None, min = None, cols = None, above = None):
@@ -556,7 +554,7 @@ t - data to be added</p>
         None
     &#34;&#34;&#34;
     if self.cols:
-        t = t.cells if hasattr(t, &#34;cells&#34;) else ROW(t)
+        t = t if hasattr(t, &#34;cells&#34;) else ROW(t)
         self.rows.append(t)
         self.cols.add(t)
     else:
@@ -680,9 +678,9 @@ x - data to be cloned</p>
     Output:
         data - Clone of DATA object
     &#34;&#34;&#34;
-    data = copy(self)
-    if rows:
-        data.rows = rows
+    data = DATA([self.cols.names])
+    for row in rows:
+        data.add(row)
     return data</code></pre>
 </details>
 </dd>
@@ -838,8 +836,6 @@ c - Distance between A and B</p></div>
             mid = tmp[&#34;row&#34;]
         else:
             right.append(tmp[&#34;row&#34;])
-    # print(&#34;len of left&#34; + str(len(left)))
-    # print(&#34;len of right&#34; + str(len(right)))
     return left, right, A, B, mid, c</code></pre>
 </details>
 </dd>
