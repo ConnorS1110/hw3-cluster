@@ -172,7 +172,7 @@ def cosine(a, b, c):
     &#34;&#34;&#34;
     x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
-    y = (a ** 2 - x2 ** 2) ** 0.5
+    y = (abs(a ** 2 - x2 ** 2)) ** 0.5
     return x2, y
 
 
@@ -436,6 +436,22 @@ def clusterFunc():
     data = DATA(full_path)
     show(data.cluster(), &#34;mid&#34;, data.cols.y, 1)
 
+def swayFunc():
+    &#34;&#34;&#34;
+    Function:
+        swayFunc
+    Description:
+        Callback function to test sway function in DATA class
+    Input:
+        None
+    Output:
+        the correct data is output from the sway function
+    &#34;&#34;&#34;
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    show(data.sway(), &#34;mid&#34;, data.cols.y, 1)
+
 def aroundFunc():
     &#34;&#34;&#34;
     Function:
@@ -653,7 +669,7 @@ y - y of line between a &amp; b</p></div>
     &#34;&#34;&#34;
     x1 = (a ** 2 + c ** 2 - b ** 2) / (2 * c)
     x2 = max(0, min(1, x1))
-    y = (a ** 2 - x2 ** 2) ** 0.5
+    y = (abs(a ** 2 - x2 ** 2)) ** 0.5
     return x2, y</code></pre>
 </details>
 </dd>
@@ -1254,6 +1270,39 @@ lvl - how deep the tree is</p>
         print(&#34;&#34;, &#34;\tdiv&#34;, (data.stats(&#34;div&#34;, cols, 2)))</code></pre>
 </details>
 </dd>
+<dt id="src.utility.swayFunc"><code class="name flex">
+<span>def <span class="ident">swayFunc</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="function">Function</h2>
+<p>swayFunc</p>
+<h2 id="description">Description</h2>
+<p>Callback function to test sway function in DATA class</p>
+<h2 id="input">Input</h2>
+<p>None</p>
+<h2 id="output">Output</h2>
+<p>the correct data is output from the sway function</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def swayFunc():
+    &#34;&#34;&#34;
+    Function:
+        swayFunc
+    Description:
+        Callback function to test sway function in DATA class
+    Input:
+        None
+    Output:
+        the correct data is output from the sway function
+    &#34;&#34;&#34;
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, args.file)
+    data = DATA(full_path)
+    show(data.sway(), &#34;mid&#34;, data.cols.y, 1)</code></pre>
+</details>
+</dd>
 <dt id="src.utility.symFunc"><code class="name flex">
 <span>def <span class="ident">symFunc</span></span>(<span>)</span>
 </code></dt>
@@ -1327,6 +1376,7 @@ lvl - how deep the tree is</p>
 <li><code><a title="src.utility.rint" href="#src.utility.rint">rint</a></code></li>
 <li><code><a title="src.utility.show" href="#src.utility.show">show</a></code></li>
 <li><code><a title="src.utility.statsFunc" href="#src.utility.statsFunc">statsFunc</a></code></li>
+<li><code><a title="src.utility.swayFunc" href="#src.utility.swayFunc">swayFunc</a></code></li>
 <li><code><a title="src.utility.symFunc" href="#src.utility.symFunc">symFunc</a></code></li>
 </ul>
 </li>
