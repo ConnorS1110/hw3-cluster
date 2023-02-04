@@ -17,7 +17,7 @@ OPTIONS:
   -d  --dump    on crash, dump stack   = false
   -f  --file    name of file           = ../etc/data/auto93.csv
   -F  --Far     distance to "faraway"  = .95
-  -g  --go      start-up action        = data
+  -g  --go      start-up action        = all
   -h  --help    show help              = false
   -m  --min     stop clusters at N^min = .5
   -p  --p       distance coefficient   = 2
@@ -178,11 +178,6 @@ def any(t):
     """
     rintVal = rint(None, len(t) - 1)
     return t[rintVal]
-
-# def lt(x):
-#     def fun(a, b):
-#         return a[x] < b[x]
-#     return fun
 
 def randFunc():
     """
@@ -386,7 +381,7 @@ def cloneFunc():
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, args.file)
     data1 = DATA(full_path)
-    data2 = data1.clone()
+    data2 = data1.clone(data1.rows)
     return (len(data1.rows) == len(data2.rows) and
             data1.cols.y[1].w == data2.cols.y[1].w and
             data1.cols.x[1].at == data2.cols.x[1].at and

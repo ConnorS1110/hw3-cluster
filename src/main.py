@@ -1,9 +1,6 @@
 from testfile import getCliArgs, printCLIvalues
 import utility
 
-# args = None
-# Seed = 937162211
-
 def main(funs):
     """
     Function:

@@ -16,7 +16,8 @@ class DATA:
         if type(src) == str:
             test.readCSV(src, fun)
         else:
-            map(fun, src or {})
+            for row in src:
+                self.add(row)
 
     def add(self, t):
         """
@@ -31,7 +32,7 @@ class DATA:
             None
         """
         if self.cols:
-            t = t.cells if hasattr(t, "cells") else ROW(t)
+            t = t if hasattr(t, "cells") else ROW(t)
             self.rows.append(t)
             self.cols.add(t)
         else:
@@ -50,9 +51,9 @@ class DATA:
         Output:
             data - Clone of DATA object
         """
-        data = copy(self)
-        if rows:
-            data.rows = rows
+        data = DATA([self.cols.names])
+        for row in rows:
+            data.add(row)
         return data
 
     def stats(self, what, cols, nPlaces, fun=None):
@@ -180,8 +181,6 @@ class DATA:
                 mid = tmp["row"]
             else:
                 right.append(tmp["row"])
-        # print("len of left" + str(len(left)))
-        # print("len of right" + str(len(right)))
         return left, right, A, B, mid, c
 
     def cluster(self, rows = None, min = None, cols = None, above = None):
